@@ -9,43 +9,36 @@ Currency::Currency(std::string name, double rateInEuro, int value)
     this->value = value; // realValue := value/100
 }
 
-void Currency::multiply(int m)
+Currency::Currency(std::string name, int rateInEuro, int value)
 {
-    this->value =getMultiplied(m);
+    this->name = name;
+    this->rateInEuro = rateInEuro; // 431
+    this->value = value; // realValue := value/100
 }
 
-long int Currency::getMultiplied(int m)
+int Currency::getInEuro() const
 {
-    return m*value;
-}
-
-int Currency::getInEuro()
-{
-    return this->value / this->rateInEuro;
-}
-
-long int Currency::getSum(Currency curr)
-{
-    if(this->name.compare(curr.name) == 0)
-        return curr.value + this->value;
-     else
-        return curr.getInEuro()*this->rateInEuro + this->value;
+    double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
+    return r;
 }
 
 void Currency::add(Currency curr)
 {
-    this->value = getSum(curr);
+    if(this->name.compare(curr.name) == 0)
+        this->value +=curr.value;
+     else
+        this->value += curr.getInEuro()*this->rateInEuro;
 }
 
-void Currency::assign(Currency curr)
+string Currency::getFormattedValue() const
 {
-    this->name = curr.name;
-    this->value = curr.value;
-    this->rateInEuro = curr.rateInEuro;
+    return string(this->name + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
 }
 
-string Currency::getFormattedValue()
-{
-    return string(to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
-}
+
+
+
+
+
+
 
