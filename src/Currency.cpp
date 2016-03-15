@@ -16,7 +16,7 @@ Currency::Currency(std::string name, int rateInEuro, int value)
     this->value = value; // realValue := value/100
 }
 
-int Currency::getInEuro() const
+long int Currency::getInEuro() const
 {
     double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
     return r;

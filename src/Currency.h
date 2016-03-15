@@ -33,7 +33,7 @@ class Currency
     private:
         long int value;
         void add(Currency curr);
-        getInEuro() const;
+        long int getInEuro() const;
 };
 
 
