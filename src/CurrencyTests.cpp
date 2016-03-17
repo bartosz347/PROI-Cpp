@@ -12,6 +12,7 @@ BOOST_AUTO_TEST_CASE( constructor_default )
     BOOST_CHECK_EQUAL( c.name.compare("PLN"),0);
     BOOST_CHECK_EQUAL( c.getCentsValue(), 0);
     BOOST_CHECK_EQUAL( c.getMainValue(), 0);
+    BOOST_CHECK_EQUAL( c.rateInEuro, 431);
 }
 BOOST_AUTO_TEST_CASE( constructor_ext )
 {
@@ -25,7 +26,7 @@ BOOST_AUTO_TEST_CASE( constructor_ext )
 BOOST_AUTO_TEST_CASE( get_formatted_value )
 {
     Currency c ("PLN", 1, 1234);
-    BOOST_CHECK_EQUAL(c.getFormattedValue().compare("PLN 12.34"), 0);
+    BOOST_CHECK_EQUAL(c.getFormattedValue().compare("PLN 12.34"), 0); //todo
 }
 
 // *
@@ -55,7 +56,7 @@ BOOST_AUTO_TEST_CASE( add_same_currency )
 // +=
 BOOST_AUTO_TEST_CASE( add_different_currency )
 {
-    Currency c1 ("PLN", 4.3099, 123400);
+    Currency c1 ("PLN", 4.3099, 123400); // licczby do latwego przeliczenia
     Currency c2 ("GBP", 0.77595, 56700);
     c1 += c2;
     BOOST_CHECK_EQUAL(c1.getRawValue(), 436737);

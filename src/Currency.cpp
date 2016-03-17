@@ -2,14 +2,14 @@
 
 using namespace std;
 
-Currency::Currency(std::string name, double rateInEuro, int value)
+Currency::Currency(string name, double rateInEuro, int value)
 {
     this->name = name;
     this->rateInEuro = lround(rateInEuro*100); // 4.3099 -> 431
     this->value = value; // realValue := value/100
 }
 
-Currency::Currency(std::string name, int rateInEuro, int value)
+Currency::Currency(string name, int rateInEuro, int value)
 {
     this->name = name;
     this->rateInEuro = rateInEuro; // 431

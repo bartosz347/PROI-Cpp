@@ -18,11 +18,13 @@ class Currency
         int getCentsValue() const { return this->value%100; }
         std::string getFormattedValue() const;
 
-        void operator=(Currency curr)
+        Currency& operator=(Currency curr) // zbey mozna bylo uzyc a=b=c
         {
+            // todo sprawdzenie czy nie przepisujemy samych siebie, test do tego
             this->name = curr.name;
             this->value = curr.value;
             this->rateInEuro = curr.rateInEuro;
+            return *this;
         }
         Currency& operator-() {this->value = -value; return *this;}
         Currency& operator+=(const Currency curr) { add(curr); return *this; }
