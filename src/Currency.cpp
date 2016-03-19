@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Currency::Currency(string name, double rateInEuro, int value)
+Currency::Currency(string name, double rateInEuro, int value) // todo should not use double, all should be int (nice rates could be used)
 {
     this->name = name;
     this->rateInEuro = lround(rateInEuro*100); // 4.3099 -> 431

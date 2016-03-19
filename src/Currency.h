@@ -18,9 +18,9 @@ class Currency
         int getCentsValue() const { return this->value%100; }
         std::string getFormattedValue() const;
 
-        Currency& operator=(Currency curr) // zbey mozna bylo uzyc a=b=c
+        Currency& operator=(Currency curr) // referencja zbey mozna bylo uzyc a=b=c
         {
-            // todo sprawdzenie czy nie przepisujemy samych siebie, test do tego
+            // todo sprawdzenie czy nie przepisujemy samych siebie, test do tego!!, bo mozemy najpierw sie usunac a potem chciec odczyac to co usuniete
             this->name = curr.name;
             this->value = curr.value;
             this->rateInEuro = curr.rateInEuro;
