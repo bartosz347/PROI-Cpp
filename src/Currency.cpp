@@ -2,6 +2,8 @@
 
 using namespace std;
 
+
+// legacy
 Currency::Currency(string name, double rateInEuro, int value) // todo should not use double, all should be int (nice rates could be used)
 {
     this->name = name;
