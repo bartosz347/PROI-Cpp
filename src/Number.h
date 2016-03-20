@@ -4,38 +4,47 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <list>
+
 #include <math.h>
 
 class Number
 {
 public:
-    std::vector<char> t;
-
+    std::list<char> digitCellsArr;
     Number(int number);
 
-    std::string tempGetString() const;
+    std::string tempGetString();
     Number& operator+=(Number n)
     {
-        int nIndex=0, selfIndex=0;
-        carry = 0;
-        while(nIndex < n.t.size() && selfIndex < t.size()) {
-            addTwo2DigitNumbers(t[selfIndex], n.t[nIndex], carry);
+        std::list<char>::iterator nIter=n.digitCellsArr.begin(), selfIter=digitCellsArr.begin();
 
-            selfIndex++;
-            nIndex++;
+        carry = 0;
+        while(nIter != n.digitCellsArr.end() && selfIter != digitCellsArr.end())
+        {
+            addTwo2DigitNumbers(*selfIter, *nIter, carry);
+            nIter++;
+            selfIter++;
         }
-        while(nIndex < n.t.size() ) {
-            this->t.push_back(0);
-            addTwo2DigitNumbers(t[selfIndex], n.t[nIndex], carry);
-            selfIndex++;
-            nIndex++;
+
+        while(nIter != n.digitCellsArr.end() )
+        {
+            selfIter--;
+            this->digitCellsArr.push_back(0);
+            selfIter++;
+
+            addTwo2DigitNumbers(*selfIter, *nIter, carry);
+            nIter++;
+            selfIter++;
         }
-        while(selfIndex < t.size() ) {
-            addTwo2DigitNumbers(t[selfIndex], 0, carry);
-            selfIndex++;
+
+        while(selfIter != digitCellsArr.end() )
+        {
+            addTwo2DigitNumbers(*selfIter, 0, carry);
+            selfIter++;
         }
         if(carry > 0)
-            this->t.push_back(carry);
+            this->digitCellsArr.push_back(carry);
         return *this;
     }
 
@@ -45,6 +54,7 @@ public:
         a = (a+b+aCarry)%100;
         carry = (ax+b+aCarry)/100;
     }
+
 
 
 protected:

@@ -4,24 +4,25 @@
 Number::Number(int number)
 {
     if(number == 0) {
-        t.push_back(0);
+        digitCellsArr.push_back(0);
     }
     while(number != 0) {
-        t.push_back(number % 100);
+        digitCellsArr.push_back(number % 100);
         number /= 100;
     }
 }
 
-std::string Number::tempGetString() const
+std::string Number::tempGetString()
 {
     std::stringstream s;
-    s << std::to_string(t[t.size()-1]) ;
-    for(int i = t.size()-2; i >= 0; i--) {
-       if(t[i] > 9)
-             s <<  std::to_string(t[i]) ;
+    std::list<char>::reverse_iterator rIter = digitCellsArr.rbegin(); // reverse iterator!
+    s << std::to_string(*rIter) ;
+    rIter++;
+    for(; rIter != digitCellsArr.rend(); rIter++) {
+       if(*rIter > 9)
+             s << std::to_string(*rIter);
        else
-            s<< "0"+std::to_string(t[i]);
-       // s <<  std::to_string(t[i]) ;
+            s<< "0"+std::to_string(*rIter);
     }
     std::string ret;
     s >> ret;

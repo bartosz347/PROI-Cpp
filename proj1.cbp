@@ -35,8 +35,10 @@
 		</Compiler>
 		<Unit filename="src/Currency.cpp" />
 		<Unit filename="src/Currency.h" />
-		<Unit filename="src/CurrencyOperators.h" />
 		<Unit filename="src/CurrencyTests.cpp" />
+		<Unit filename="src/Number.cpp" />
+		<Unit filename="src/Number.h" />
+		<Unit filename="src/NumbersTests.cpp" />
 		<Unit filename="src/tests_main.cpp" />
 		<Extensions>
 			<code_completion />
