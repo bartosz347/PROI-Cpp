@@ -3,63 +3,36 @@
 
 #include <sstream>
 #include <string>
-#include <vector>
 #include <list>
 
-#include <math.h>
+#define BASE 1000
+#define DIGITS 3
 
 class Number
 {
 public:
-    std::list<char> digitCellsArr;
-    Number(int number);
+    std::list<int> digitCellsArr;
+    Number(long int number);
 
     std::string tempGetString();
-    Number& operator+=(Number n)
+
+    Number& operator+=(Number n);
+    Number& operator*=(int a);
+    Number& operator*=(const Number n);
+    Number& operator/=(const int a);
+
+
+    void addTwo2DigitNumbers(int& a, int const b, int aCarry)
     {
-        std::list<char>::iterator nIter=n.digitCellsArr.begin(), selfIter=digitCellsArr.begin();
-
-        carry = 0;
-        while(nIter != n.digitCellsArr.end() && selfIter != digitCellsArr.end())
-        {
-            addTwo2DigitNumbers(*selfIter, *nIter, carry);
-            nIter++;
-            selfIter++;
-        }
-
-        while(nIter != n.digitCellsArr.end() )
-        {
-            selfIter--;
-            this->digitCellsArr.push_back(0);
-            selfIter++;
-
-            addTwo2DigitNumbers(*selfIter, *nIter, carry);
-            nIter++;
-            selfIter++;
-        }
-
-        while(selfIter != digitCellsArr.end() )
-        {
-            addTwo2DigitNumbers(*selfIter, 0, carry);
-            selfIter++;
-        }
-        if(carry > 0)
-            this->digitCellsArr.push_back(carry);
-        return *this;
+        int ax = a;
+        a = (a+b+aCarry)%BASE;
+        carry = (ax+b+aCarry)/BASE;
     }
-
-    void addTwo2DigitNumbers(char& a, char const b, char aCarry)
-    {
-        char ax = a;
-        a = (a+b+aCarry)%100;
-        carry = (ax+b+aCarry)/100;
-    }
-
 
 
 protected:
 private:
-    char carry;
+    int carry;
 
 
 };

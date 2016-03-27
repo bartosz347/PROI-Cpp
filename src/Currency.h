@@ -4,6 +4,9 @@
 #include <string>
 #include <math.h>
 
+enum currencyTag {PLN, GBP, USD};
+
+//template <enum currencyTag > class Currency
 class Currency
 {
     public:
