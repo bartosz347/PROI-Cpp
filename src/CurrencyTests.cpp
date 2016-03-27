@@ -3,12 +3,14 @@
 #include "Currency.h"
 #include <iostream>
 
+
 BOOST_AUTO_TEST_SUITE(CurrencyTests)
+
 
 BOOST_AUTO_TEST_CASE( constructor_default )
 {
     Currency c ("PLN", 431);
-    BOOST_CHECK_EQUAL( c.name.compare("PLN"),0);
+    BOOST_CHECK_EQUAL( c.name, "PLN");
     BOOST_CHECK_EQUAL( c.getCentsValue(), 0);
     BOOST_CHECK_EQUAL( c.getMainValue(), 0);
     BOOST_CHECK_EQUAL( c.rateInEuro, 431);
@@ -88,6 +90,7 @@ BOOST_AUTO_TEST_CASE( same_currency_and_equal_value )
     BOOST_CHECK_EQUAL(c1 == c2 && !(c1 == c3) && !(c1 == c4), true);
 }
 
+
 // =
 BOOST_AUTO_TEST_CASE( assign_test )
 {
@@ -96,6 +99,5 @@ BOOST_AUTO_TEST_CASE( assign_test )
     c1 = c2;
     BOOST_CHECK_EQUAL( c1 == c2 && c1.getRawValue() == c2.getRawValue() && c1.rateInEuro == c2.rateInEuro, 1);
 }
-
 
 BOOST_AUTO_TEST_SUITE_END()

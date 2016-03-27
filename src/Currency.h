@@ -4,6 +4,8 @@
 #include <string>
 #include <math.h>
 
+#include "Number.h"
+
 enum currencyTag {PLN, GBP, USD};
 
 //template <enum currencyTag > class Currency
@@ -13,13 +15,15 @@ class Currency
         std::string name;
         int rateInEuro;
 
-        Currency(std::string name, double rateInEuro, int value = 0);
-        Currency(std::string name, int rateInEuro, int value = 0);
+        Currency(std::string name, double rateInEuro, long int value = 0);
+        Currency(std::string name, int rateInEuro, long int value = 0);
+       //TODO Currency(std::string name, int rateInEuro, Number value = Number(0));
+        // TODO string constructor ?
 
-        int getRawValue() const { return this->value; }
-        int getMainValue() const { return this->value/100; }
-        int getCentsValue() const { return this->value%100; }
-        std::string getFormattedValue() const;
+        Number getRawValue() const { return this->value; }
+        Number getMainValue() const { return this->value/100; } // TODO should be optimized as special function
+        int getCentsValue() { return this->value.getTwoLastDigits(); }
+        std::string getFormattedValue();
 
         Currency& operator=(Currency curr)
         {
@@ -29,21 +33,25 @@ class Currency
             this->rateInEuro = curr.rateInEuro;
             return *this;
         }
+        /* TODO
         Currency& operator-()
         {
             this->value = -value;
             return *this;
         }
+        */
         Currency& operator+=(const Currency curr)
         {
             add(curr);
             return *this;
         }
+        /* TODO
         Currency& operator-=(Currency curr)
         {
             add(-curr);
             return *this;
         }
+        */
         Currency& operator*=(const int m)
         {
             this->value = m * this->value;
@@ -52,9 +60,9 @@ class Currency
 
     protected:
     private:
-        long int value;
+        Number value;
         void add(Currency curr);
-        long int getInEuro() const;
+        Number getInEuro() const;
 };
 
 
@@ -74,10 +82,17 @@ inline Currency operator+(Currency c1, const Currency& c2)
 {
     return c1+=c2;
 }
+/* TODO
 inline Currency operator-( Currency c1, const Currency& c2)
 {
     return c1-=c2;
 }
+*/
+
+
+
+
+
 
 #endif // CURRENCY_H
 

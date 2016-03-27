@@ -6,6 +6,19 @@
 #include <ctime>
 
 
+// http://stackoverflow.com/questions/17572583/boost-check-fails-to-compile-operator-for-custom-types/17573165#17573165
+// Changes made
+namespace boost {
+ namespace test_tools {
+  struct print_log_value {
+    void operator()( std::ostream& os, Number const& n)
+    {
+        ::operator<<(os, n);
+    }
+  };
+ }
+}
+
 BOOST_AUTO_TEST_SUITE(NumbersTests)
 
 BOOST_AUTO_TEST_CASE( conversion_test )
@@ -15,7 +28,7 @@ BOOST_AUTO_TEST_CASE( conversion_test )
         {
             int k = (std::rand() %100000);
             Number n(k);
-            BOOST_CHECK_EQUAL( n.tempGetString(), std::to_string(k));
+            BOOST_CHECK_EQUAL( n.to_string(), std::to_string(k));
         }
     }
 }
@@ -31,7 +44,7 @@ BOOST_AUTO_TEST_CASE( addition_random )
             Number a(ax);
             Number b(bx);
             a += b;
-            BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(ax+bx));
+            BOOST_CHECK_EQUAL(a.to_string(),std::to_string(ax+bx));
         }
     }
 }
@@ -41,7 +54,7 @@ BOOST_AUTO_TEST_CASE( addition_1 )
     Number a(9999);
     Number b(9999);
     a += b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(9999+9999));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999+9999));
 }
 
 BOOST_AUTO_TEST_CASE( addition_2 )
@@ -49,7 +62,7 @@ BOOST_AUTO_TEST_CASE( addition_2 )
     Number a(9999);
     Number b(+99);
     a += b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(9999+99));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999+99));
 }
 
 BOOST_AUTO_TEST_CASE( addition_3 )
@@ -57,7 +70,7 @@ BOOST_AUTO_TEST_CASE( addition_3 )
     Number a(99);
     Number b(9999);
     a += b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(99+9999));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99+9999));
 }
 
 BOOST_AUTO_TEST_CASE( addition_4 )
@@ -65,14 +78,14 @@ BOOST_AUTO_TEST_CASE( addition_4 )
     Number a(99997);
     Number b(5);
     a += b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(99997+5));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99997+5));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_simple )
 {
     Number a(654981);
     a*=(11128);
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string((long long int)654981*11128));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long long int)654981*11128));
 }
 
 
@@ -81,7 +94,7 @@ BOOST_AUTO_TEST_CASE( multipl_1 )
     Number a(9999);
     Number b(9999);
     a *= b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(9999*9999));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999*9999));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_2 )
@@ -89,7 +102,7 @@ BOOST_AUTO_TEST_CASE( multipl_2 )
     Number a(99999);
     Number b(999);
     a *= b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(99999*999));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99999*999));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_3 )
@@ -97,7 +110,7 @@ BOOST_AUTO_TEST_CASE( multipl_3 )
     Number a(99);
     Number b(99999);
     a *= b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(99*99999));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99*99999));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_4 )
@@ -105,15 +118,33 @@ BOOST_AUTO_TEST_CASE( multipl_4 )
     Number a(9);
     Number b(9999);
     a *= b;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string(9999*9));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999*9));
 }
 
 BOOST_AUTO_TEST_CASE( div_1 )
 {
     Number a(68178);
     a /= 143;
-    BOOST_CHECK_EQUAL(a.tempGetString(),std::to_string((long int)68178/143));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)68178/143));
 }
+
+BOOST_AUTO_TEST_CASE( compare_two )
+{
+    Number a(68178);
+    Number b(68178);
+    Number c(178);
+
+    BOOST_CHECK_EQUAL(a == b && !(a == c), true);
+}
+
+BOOST_AUTO_TEST_CASE( get_two_last_digits )
+{
+    Number a(68178);
+    BOOST_CHECK_EQUAL(a.getTwoLastDigits(), 78);
+}
+
+// operator*
+// operator/
 
 
 BOOST_AUTO_TEST_SUITE_END()

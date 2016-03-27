@@ -4,24 +4,24 @@ using namespace std;
 
 
 // legacy
-Currency::Currency(string name, double rateInEuro, int value) // todo should not use double, all should be int (nice rates could be used)
+Currency::Currency(string name, double rateInEuro, long int value) // todo should not use double, all should be int (nice rates could be used)
 {
     this->name = name;
     this->rateInEuro = lround(rateInEuro*100); // 4.3099 -> 431
-    this->value = value; // realValue := value/100
+    this->value = Number(value); // realValue := value/100
 }
 
-Currency::Currency(string name, int rateInEuro, int value)
+Currency::Currency(string name, int rateInEuro, long int value)
 {
     this->name = name;
     this->rateInEuro = rateInEuro; // 431
-    this->value = value; // realValue := value/100
+    this->value = Number(value); // realValue := value/100
 }
 
-long int Currency::getInEuro() const
+Number Currency::getInEuro() const
 {
-    double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
-    return r;
+    //double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
+    return this->value / this->rateInEuro; // TODO rounding ?
 }
 
 void Currency::add(Currency curr)
@@ -32,11 +32,10 @@ void Currency::add(Currency curr)
         this->value += curr.getInEuro()*this->rateInEuro;
 }
 
-string Currency::getFormattedValue() const
+string Currency::getFormattedValue()
 {
     return string(this->name + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
 }
-
 
 
 

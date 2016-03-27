@@ -12,11 +12,11 @@ Number::Number(long int number)
     }
 }
 
-std::string Number::tempGetString()
+std::string Number::to_string() const
 {
     std::stringstream s;
     std::string ret;
-    std::list<int>::reverse_iterator rIter = digitCellsArr.rbegin(); // reverse iterator!
+    std::list<int>::const_reverse_iterator rIter = digitCellsArr.crbegin(); // reverse iterator!
     if(*rIter == 0 && digitCellsArr.size() == 1) {
         s << "0";
         s >> ret;
@@ -127,6 +127,21 @@ Number& Number::operator/=(const int a)
     for(; elementToRemoveNo > 0; elementToRemoveNo--)
         digitCellsArr.pop_back();
     return *this;
+}
+
+bool operator==(Number n1, Number n2)
+{
+    if(n1.digitCellsArr.size() != n2.digitCellsArr.size())
+        return false;
+
+    for(std::list<int>::iterator n1_Iter=n1.digitCellsArr.begin(), n2_Iter=n2.digitCellsArr.begin(); n1_Iter != n1.digitCellsArr.end() && n2_Iter != n2.digitCellsArr.end(); )
+    {
+        if(*n1_Iter != *n2_Iter)
+            return false;
+        n2_Iter++;
+        n1_Iter++;
+    }
+    return true;
 }
 
 
