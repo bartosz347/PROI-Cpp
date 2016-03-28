@@ -33,9 +33,9 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src/Currency.cpp" />
-		<Unit filename="src/Currency.h" />
-		<Unit filename="src/CurrencyTests.cpp" />
+		<Unit filename="src/Money.cpp" />
+		<Unit filename="src/Money.h" />
+		<Unit filename="src/MoneyTests.cpp" />
 		<Unit filename="src/Number.cpp" />
 		<Unit filename="src/Number.h" />
 		<Unit filename="src/NumbersTests.cpp" />

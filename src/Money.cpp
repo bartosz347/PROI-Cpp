@@ -2,40 +2,39 @@
 
 using namespace std;
 
+template<currencyTag T>
+std::string Money<T>::Money::currencyTagNames[3] = {"PLN", "GBP","USD"};
 
-// legacy
-Money::Money(string name, double rateInEuro, long int value) // todo should not use double, all should be int (nice rates could be used)
-{
-    this->name = name;
-    this->rateInEuro = lround(rateInEuro*100); // 4.3099 -> 431
-    this->value = Number(value); // realValue := value/100
-}
 
-Money::Money(string name, int rateInEuro, long int value)
+
+template<currencyTag T>
+Money<T>::Money(int rateInEuro, long int value)
 {
-    this->name = name;
     this->rateInEuro = rateInEuro; // 431
     this->value = Number(value); // realValue := value/100
 }
 
-Number Money::getInEuro() const
+template<currencyTag T>
+Money<T>::Money(int rateInEuro, Number value)
+{
+    this->rateInEuro = rateInEuro; // 4.3099 -> 431
+    this->value = value; // realValue := value/100
+}
+
+template<currencyTag T>
+Number Money<T>::getInEuro() const
 {
     //double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
     return this->value / this->rateInEuro; // TODO rounding ?
 }
 
-void Money::add(Money curr)
+
+template<currencyTag T>
+string Money<T>::getFormattedValue()
 {
-    if(this->name.compare(curr.name) == 0)
-        this->value +=curr.value;
-     else
-        this->value += curr.getInEuro()*this->rateInEuro;
+    return string(this->getStringName() + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
 }
 
-string Money::getFormattedValue()
-{
-    return string(this->name + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
-}
 
 
 
