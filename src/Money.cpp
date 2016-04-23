@@ -3,7 +3,7 @@
 using namespace std;
 
 template<currencyTag T>
-std::string Money<T>::Money::currencyTagNames[3] = {"PLN", "GBP","USD"};
+std::string Money<T>::Money::currencyTagNames[CURRENCIES_NO] = {CURRENCIES_STRING};
 
 
 
@@ -24,13 +24,12 @@ Money<T>::Money(int rateInEuro, Number value)
 template<currencyTag T>
 Number Money<T>::getInEuro() const
 {
-    //double r = round(this->value / (double)this->rateInEuro); // TODO rounding ?
     return this->value / this->rateInEuro; // TODO rounding ?
 }
 
 
 template<currencyTag T>
-string Money<T>::getFormattedValue()
+string Money<T>::toString()
 {
     return string(this->getStringName() + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
 }

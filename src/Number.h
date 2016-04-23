@@ -21,8 +21,20 @@ public:
     Number& operator*=(int a);
     Number& operator*=(const Number n);
     Number& operator/=(const int a);
+    Number& operator-=(const Number n);
 
 
+    void trimZeros()
+    {
+        std::list<int>::reverse_iterator selfIter = digitCellsArr.rbegin();
+        while(selfIter != digitCellsArr.rend()) {
+            if(*selfIter == 0) {
+                selfIter++;
+                digitCellsArr.pop_back();
+            } else
+                return;
+        }
+    }
 
     void addTwo2DigitNumbers(int& a, int const b, int aCarry)
     {
@@ -44,6 +56,7 @@ private:
 };
 
 bool operator==(Number n1, Number n2);
+bool operator>(Number n1, Number n2);
 
 inline Number& operator/(Number n, const int a)
 {
@@ -59,11 +72,16 @@ inline Number& operator*(Number n, const int a)
 {
     return n*=a;
 }
+inline Number& operator-(Number n1, Number n2)
+{
+    return n1-=n2;
+}
 
 inline std::string to_string(Number n)
 {
     return n.to_string();
 }
+
 
 static inline std::ostream& operator<< (std::ostream& os, const Number& n)
 {

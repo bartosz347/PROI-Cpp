@@ -1,15 +1,18 @@
 #ifndef CURRENCY_H
 #define CURRENCY_H
 
-#include <string>
-#include <math.h>
-
 #include "Number.h"
+#include <string>
+
+#define CURRENCIES PLN,GBP,USD
+#define CURRENCIES_STRING "PLN","GBP","USD"
+#define CURRENCIES_NO 3
 
 enum class currencyTag
 {
-    PLN, GBP, USD
+    CURRENCIES
 };
+
 
 
 template <currencyTag T> class Money
@@ -24,7 +27,7 @@ public:
     int rateInEuro;
 
     Money(int rateInEuro, long int value = 0);
-    Money(int rateInEuro, Number value = Number(0));
+    Money(int rateInEuro, Number value = Number{0});
     // TODO string constructor ?
 
     Number getRawValue() const
@@ -39,7 +42,7 @@ public:
     {
         return this->value.getTwoLastDigits();
     }
-    std::string getFormattedValue();
+    std::string toString();
     std::string getStringName()
     {
         return currencyTagNames[static_cast<int>(T)];
@@ -54,26 +57,21 @@ public:
         this->rateInEuro = curr.rateInEuro;
         return *this;
     }
-    /* TODO
-    Currency& operator-()
-    {
-        this->value = -value;
-        return *this;
-    }
-    */
+
     template <currencyTag K>
-    Money& operator+=(const Money<K> curr)
+    Money& operator+=(const Money<K> money)
     {
-        add(curr);
+        add(money);
         return *this;
     }
-    /* TODO
-    Currency& operator-=(Currency curr)
+
+    template <currencyTag K>
+    Money& operator-=(const Money<K> money)
     {
-        add(-curr);
+        subtract(money);
         return *this;
     }
-    */
+
     Money& operator*=(const int m)
     {
         this->value = m * this->value;
@@ -84,19 +82,26 @@ protected:
 private:
     Number value;
 
-    template<currencyTag K>
-
     // ASK how to move it to Money.cpp ?
+    template<currencyTag K>
     void add(Money<K> curr)
     {
-        if(T == K )
+        if(T == K)
             this->value +=curr.value;
         else
             this->value += curr.getInEuro()*this->rateInEuro;
     }
 
+    template<currencyTag K>
+    void subtract(Money<K> curr)
+    {
+        if(T == K)
+            this->value -=curr.value;
+        else
+            this->value -= curr.getInEuro()*this->rateInEuro;
+    }
+
     Number getInEuro() const;
-    currencyTag myTag;
 };
 
 
@@ -116,12 +121,10 @@ template<currencyTag T1, currencyTag T2> inline Money<T1> operator+(Money<T1> c1
 {
     return c1+=c2;
 }
-/* TODO
-inline Currency operator-( Currency c1, const Currency& c2)
+template<currencyTag T1, currencyTag T2> inline Money<T1> operator-(Money<T1> c1, const Money<T2>& c2)
 {
     return c1-=c2;
 }
-*/
 
 template class Money<currencyTag::PLN>; // TODO fixme ASK ???
 template class Money<currencyTag::GBP>;

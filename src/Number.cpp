@@ -109,12 +109,13 @@ Number& Number::operator*=(Number n)
 
 Number& Number::operator/=(const int a)
 {
-    if(a == 0) return *this;
+    if(a == 0) return *this; // TODO
+    if(*this == 0) return *this;
     int carry = 0;
     bool nonzeroSeen = false;
     int elementToRemoveNo = 0;
 
-    for(std::list<int>::reverse_iterator rSelfIter=digitCellsArr.rbegin(); rSelfIter != digitCellsArr.rend(); rSelfIter++) {
+    for(std::list<int>::reverse_iterator rSelfIter = digitCellsArr.rbegin(); rSelfIter != digitCellsArr.rend(); rSelfIter++) {
         *rSelfIter += carry * BASE;
         carry = *rSelfIter % a;
         *rSelfIter /= a;
@@ -126,8 +127,43 @@ Number& Number::operator/=(const int a)
 
     for(; elementToRemoveNo > 0; elementToRemoveNo--)
         digitCellsArr.pop_back();
+    trimZeros();
     return *this;
 }
+
+Number& Number::operator-=(Number n)
+{
+    if(n > *this) {
+        digitCellsArr.clear(); // TODO exception
+        return *this;
+    }
+
+    std::list<int>::iterator nIter = n.digitCellsArr.begin(),
+                             selfIter = digitCellsArr.begin(),
+                             tmpIter;
+
+    while(nIter != n.digitCellsArr.end()) {
+        if(*selfIter < *nIter) {
+            tmpIter = selfIter;
+            tmpIter++;
+            --*tmpIter;
+            *(selfIter) -= *nIter;
+            *(selfIter) += BASE;
+        }
+        else {
+            *(selfIter) -= *nIter;
+        }
+        nIter++;
+        selfIter++;
+    }
+
+    trimZeros();
+    return *this;
+
+
+
+}
+
 
 bool operator==(Number n1, Number n2)
 {
@@ -144,4 +180,23 @@ bool operator==(Number n1, Number n2)
     return true;
 }
 
+
+bool operator>(Number n1, Number n2)
+{
+    if(n1.digitCellsArr.size() > n2.digitCellsArr.size()) // TODO negative?
+        return true;
+    else if( n1.digitCellsArr.size() < n2.digitCellsArr.size())
+        return false;
+
+    for(std::list<int>::reverse_iterator n1_Iter=n1.digitCellsArr.rbegin(), n2_Iter=n2.digitCellsArr.rbegin(); n1_Iter != n1.digitCellsArr.rend() && n2_Iter != n2.digitCellsArr.rend(); )
+    {
+        if(*n1_Iter > *n2_Iter)
+            return true;
+        else if(*n1_Iter < *n2_Iter)
+            return false;
+        n2_Iter++;
+        n1_Iter++;
+    }
+    return false;
+}
 
