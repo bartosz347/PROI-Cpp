@@ -5,21 +5,24 @@ using namespace std;
 template<currencyTag T>
 std::string Money<T>::Money::currencyTagNames[CURRENCIES_NO] = {CURRENCIES_STRING};
 
+template<currencyTag T>
+int Money<T>::Money::currencyRates[CURRENCIES_NO] = {CURRENCIES_RATES};
+
 
 
 template<currencyTag T>
-Money<T>::Money(int rateInEuro, long int value)
-{
-    this->rateInEuro = rateInEuro; // 431
-    this->value = Number(value); // realValue := value/100
-}
+Money<T>::Money(long int value):
+    rateInEuro(currencyRates[static_cast<int>(T)]), // like 431
+    value(Number{value})    // realValue := value/100
+{ }
 
 template<currencyTag T>
-Money<T>::Money(int rateInEuro, Number value)
+Money<T>::Money(Number value)
 {
-    this->rateInEuro = rateInEuro; // 4.3099 -> 431
+    this->rateInEuro = currencyRates[static_cast<int>(T)];
     this->value = value; // realValue := value/100
 }
+
 
 template<currencyTag T>
 Number Money<T>::getInEuro() const
@@ -33,6 +36,7 @@ string Money<T>::toString()
 {
     return string(this->getStringName() + " " + to_string(this->getMainValue()) + "." + to_string(this->getCentsValue()));
 }
+
 
 
 

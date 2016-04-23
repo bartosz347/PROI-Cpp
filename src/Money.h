@@ -6,6 +6,7 @@
 
 #define CURRENCIES PLN,GBP,USD
 #define CURRENCIES_STRING "PLN","GBP","USD"
+#define CURRENCIES_RATES 400,200,300
 #define CURRENCIES_NO 3
 
 enum class currencyTag
@@ -22,14 +23,24 @@ template <currencyTag T> class Money
 
 
 public:
-    static std::string currencyTagNames[3];
+    static std::string currencyTagNames[CURRENCIES_NO];
+    static int currencyRates[CURRENCIES_NO];
 
     int rateInEuro;
 
-    Money(int rateInEuro, long int value = 0);
-    Money(int rateInEuro, Number value = Number{0});
+    Money(long int value = 0);
+    Money(Number value = Number{0});
+
+
     // TODO string constructor ?
 
+    template <currencyTag K>
+    explicit operator Money<K>&()
+    {
+        Money<K>* m = new Money<K>{Number{0}};
+        *m += *this;
+        return *m;
+    }
     Number getRawValue() const
     {
         return this->value;
