@@ -12,6 +12,7 @@ Number::Number(long int number)
     }
 }
 
+
 std::string Number::to_string() const
 {
     std::stringstream s;
@@ -41,6 +42,7 @@ std::string Number::to_string() const
     s >> ret;
     return ret;
 }
+
 
 Number& Number::operator+=(Number n)
 {
@@ -88,6 +90,7 @@ Number& Number::operator*=(int a)
     return *this;
 }
 
+
 Number& Number::operator*=(Number n)
 {
     const Number mCopy_const = *this;
@@ -106,6 +109,7 @@ Number& Number::operator*=(Number n)
     }
     return *this;
 }
+
 
 Number& Number::operator/=(const int a)
 {
@@ -130,6 +134,7 @@ Number& Number::operator/=(const int a)
     trimZeros();
     return *this;
 }
+
 
 Number& Number::operator-=(Number n)
 {
@@ -159,9 +164,6 @@ Number& Number::operator-=(Number n)
 
     trimZeros();
     return *this;
-
-
-
 }
 
 

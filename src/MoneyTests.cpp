@@ -9,6 +9,9 @@ VALUES *loaded* from external source
     #define CURRENCIES_STRING "PLN","GBP","USD"
     #define CURRENCIES_RATES 400,200,300
     #define CURRENCIES_NO 3
+
+    #define DECIMAL_SEPARATOR "."
+    #define CURRENCY_SEPARATOR " "
 */
 
 #define PLN_RATE 400
@@ -21,7 +24,7 @@ BOOST_AUTO_TEST_SUITE(MoneyTests)
 
 BOOST_AUTO_TEST_CASE( constructor_default )
 {
-    Money<currencyTag::PLN> m {Number{0}};
+    Money<currencyTag::PLN> m {};
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
     BOOST_CHECK_EQUAL( m.getCentsValue(), 0);
     BOOST_CHECK_EQUAL( m.getMainValue(), Number{0});
@@ -92,7 +95,6 @@ BOOST_AUTO_TEST_CASE( get_sum_different_currency )
     BOOST_CHECK_EQUAL((c1+c2).getRawValue(), 123400 + (56700/GBP_RATE)*PLN_RATE);
 }
 
-
 // -=
 BOOST_AUTO_TEST_CASE( subtract_same_currency )
 {
@@ -127,7 +129,6 @@ BOOST_AUTO_TEST_CASE( get_difference_different_currency )
     BOOST_CHECK_EQUAL((c1-c2).getRawValue(), 123400 - (56700/GBP_RATE)*PLN_RATE);
 }
 
-
 // ==
 BOOST_AUTO_TEST_CASE( same_currency_and_equal_value )
 {
@@ -137,7 +138,6 @@ BOOST_AUTO_TEST_CASE( same_currency_and_equal_value )
     Money<currencyTag::PLN> c4 (244);
     BOOST_CHECK_EQUAL(c1 == c2 && !(c1 == c3) && !(c1 == c4), true);
 }
-
 
 // =
 BOOST_AUTO_TEST_CASE( assign_test )
@@ -151,7 +151,6 @@ BOOST_AUTO_TEST_CASE( assign_test )
     c1 = c2;
     BOOST_CHECK_EQUAL( c1 == c2 && c1.getRawValue() == c2.getRawValue() && c1.rateInEuro == c2.rateInEuro, 1);
 }
-
 
 BOOST_AUTO_TEST_CASE( conversion_test )
 {

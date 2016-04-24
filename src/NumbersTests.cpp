@@ -87,7 +87,6 @@ BOOST_AUTO_TEST_CASE( multipl_simple )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long long int)654981*11128));
 }
 
-
 BOOST_AUTO_TEST_CASE( multipl_1 )
 {
     Number a(9999);
@@ -159,7 +158,6 @@ BOOST_AUTO_TEST_CASE( check_greater_than )
 
     BOOST_CHECK_EQUAL(a > b && !(c > a), true);
 }
-
 
 BOOST_AUTO_TEST_CASE( get_two_last_digits )
 {

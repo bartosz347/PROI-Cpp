@@ -42,7 +42,7 @@ public:
         a = (a+b+aCarry)%BASE;
         carry = (ax+b+aCarry)/BASE;
     }
-    int getTwoLastDigits()
+    int getTwoLastDigits() const
     {
         return *(digitCellsArr.begin()) % 100;
     }

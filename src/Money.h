@@ -9,11 +9,13 @@
 #define CURRENCIES_RATES 400,200,300
 #define CURRENCIES_NO 3
 
+#define DECIMAL_SEPARATOR "."
+#define CURRENCY_SEPARATOR " "
+
 enum class currencyTag
 {
     CURRENCIES
 };
-
 
 
 template <currencyTag T> class Money
@@ -28,10 +30,8 @@ public:
 
     int rateInEuro;
 
-    Money(long int value = 0);
+    Money(long int value);
     Money(Number value = Number{0});
-
-
     // TODO string constructor ?
 
     template <currencyTag K>
@@ -49,12 +49,12 @@ public:
     {
         return this->value/100;    // TODO should be optimized as special function
     }
-    int getCentsValue()
+    int getCentsValue() const
     {
         return this->value.getTwoLastDigits();
     }
-    std::string toString();
-    std::string getStringName()
+    std::string toString() const;
+    std::string getStringName() const
     {
         return currencyTagNames[static_cast<int>(T)];
     }
