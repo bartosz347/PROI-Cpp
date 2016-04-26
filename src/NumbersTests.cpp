@@ -10,7 +10,8 @@
 // Changes made
 namespace boost {
  namespace test_tools {
-  struct print_log_value {
+  template<>
+  struct print_log_value<Number> {
     void operator()( std::ostream& os, Number const& n)
     {
         ::operator<<(os, n);
