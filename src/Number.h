@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <list>
+#include <stdexcept>
 
 #define BASE 1000
 #define DIGITS 3
@@ -13,7 +14,7 @@ class Number
 public:
     std::list<int> digitCellsArr;
     Number(long int number = 0);
-
+    Number(std::string numberString);
 
     std::string to_string() const;
 
@@ -27,13 +28,17 @@ public:
     void trimZeros()
     {
         std::list<int>::reverse_iterator selfIter = digitCellsArr.rbegin();
-        while(selfIter != digitCellsArr.rend()) {
+        bool wasFirstZero = *(digitCellsArr.begin()) == 0 ? true: false;
+
+        while(selfIter != digitCellsArr.rend() && digitCellsArr.size() > 0) {
             if(*selfIter == 0) {
                 selfIter++;
                 digitCellsArr.pop_back();
             } else
                 return;
         }
+        if(wasFirstZero && digitCellsArr.size() == 0)
+            digitCellsArr.push_back(0);
     }
 
     void addTwo2DigitNumbers(int& a, int const b, int aCarry)

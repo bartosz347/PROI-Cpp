@@ -14,14 +14,19 @@ template<currencyTag T>
 Money<T>::Money(long int value):
     rateInEuro(currencyRates[static_cast<int>(T)]), // like 420
     value(Number{value})    // realValue := value/100
-{ }
+{}
 
 template<currencyTag T>
-Money<T>::Money(Number value)
-{
-    this->rateInEuro = currencyRates[static_cast<int>(T)];
-    this->value = value; // realValue := value/100
-}
+Money<T>::Money(Number value) :
+    rateInEuro(currencyRates[static_cast<int>(T)]),
+    value{value} // realValue := value/100
+{}
+
+template<currencyTag T>
+Money<T>::Money(std::string numberString) :
+    rateInEuro(currencyRates[static_cast<int>(T)]),
+    value{Number{numberString}}
+{}
 
 
 template<currencyTag T>

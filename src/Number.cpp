@@ -12,6 +12,26 @@ Number::Number(long int number)
     }
 }
 
+Number::Number(std::string numberString)
+{
+   int length = numberString.size();
+    if(length == 0) {
+        digitCellsArr.push_back(0);
+        return;
+    }
+    int posInString = length - DIGITS;
+    while(posInString > 0) {
+        digitCellsArr.push_back(std::stoi(numberString.substr(posInString, DIGITS)));
+        posInString -= DIGITS;
+    }
+    if(posInString < 0)
+        posInString += DIGITS;
+    else
+        posInString = DIGITS;
+    digitCellsArr.push_back(std::stoi(numberString.substr(0, posInString)));
+    trimZeros();
+}
+
 
 std::string Number::to_string() const
 {
@@ -87,6 +107,7 @@ Number& Number::operator*=(int a)
     if(carry > 0) {
         digitCellsArr.push_back(carry);
     }
+    trimZeros();
     return *this;
 }
 
@@ -113,7 +134,7 @@ Number& Number::operator*=(Number n)
 
 Number& Number::operator/=(const int a)
 {
-    if(a == 0) return *this; // TODO
+    if(a == 0) throw std::runtime_error{"div by 0"}; // TODO
     if(*this == 0) return *this;
     int carry = 0;
     bool nonzeroSeen = false;

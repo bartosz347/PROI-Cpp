@@ -22,7 +22,7 @@ VALUES *loaded* from external source
 BOOST_AUTO_TEST_SUITE(MoneyTests)
 
 
-BOOST_AUTO_TEST_CASE( constructor_default )
+BOOST_AUTO_TEST_CASE( constructor_long_int )
 {
     Money<currencyTag::PLN> m {};
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
@@ -39,6 +39,17 @@ BOOST_AUTO_TEST_CASE( constructor_number )
     BOOST_CHECK_EQUAL( m.getCentsValue(), 19);
     BOOST_CHECK_EQUAL( m.rateInEuro, PLN_RATE);
 }
+
+BOOST_AUTO_TEST_CASE( constructor_string )
+{
+    Money<currencyTag::PLN> m{"111222333444555666"};
+    BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
+    BOOST_CHECK_EQUAL( m.toString(), "PLN 1112223334445556.66");
+    //m.getMainValue should be tested here TODO
+    BOOST_CHECK_EQUAL( m.getCentsValue(), 66);
+    BOOST_CHECK_EQUAL( m.rateInEuro, PLN_RATE);
+}
+
 
 BOOST_AUTO_TEST_CASE( get_as_string )
 {

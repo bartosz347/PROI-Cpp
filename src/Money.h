@@ -32,14 +32,24 @@ public:
 
     Money(long int value);
     Money(Number value = Number{0});
+    Money(std::string numberString);
     // TODO string constructor ?
 
+
     template <currencyTag K>
-    explicit operator Money<K>&()
+    explicit operator Money<K>() const
     {
+       /*
+       TODO
+        explicit operator Money<K>&()
         Money<K>* m = new Money<K>{Number{0}};
         *m += *this;
-        return *m;
+        return *m;*/
+
+        Money<K> m = Money<K>{Number{0}};
+        m += *this;
+        return m;
+
     }
     Number getRawValue() const
     {

@@ -159,20 +159,12 @@ BOOST_AUTO_TEST_CASE( multipl_4 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999*9));
 }
 
-BOOST_AUTO_TEST_CASE( multipl_by_zero )
+BOOST_AUTO_TEST_CASE( multipl_zero )
 {
     Number a(9);
     Number b(0);
     a *= b;
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999*0));
-}
-
-BOOST_AUTO_TEST_CASE( multipl_zero )
-{
-    Number a(0);
-    Number b(129);
-    a *= b;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(0*129));
 }
 
 BOOST_AUTO_TEST_CASE( div_1 )
@@ -187,24 +179,6 @@ BOOST_AUTO_TEST_CASE( div_2 )
     Number a(150);
     a /= 200;
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)150/200));
-}
-
-BOOST_AUTO_TEST_CASE( div_zero_by )
-{
-    Number a(0);
-    a /= 200;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)0));
-}
-
-BOOST_AUTO_TEST_CASE( div_by_zero )
-{
-    Number a(150);
-    try {
-        a /= 0;
-    } catch(std::runtime_error e) {
-        BOOST_CHECK_EQUAL(e.what(), "div by 0");
-    }
-
 }
 
 BOOST_AUTO_TEST_CASE( subtract_1 )
