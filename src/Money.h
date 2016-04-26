@@ -20,7 +20,8 @@ enum class currencyTag
 
 template <currencyTag T> class Money
 {
-    template<currencyTag K> // Lets us access private properties (like value) from all variations of Money http://stackoverflow.com/a/6958216
+    template<currencyTag K> // Lets us access private properties (like value)
+                            //from all variations of Money http://stackoverflow.com/a/6958216
     friend class Money;
 
 
@@ -33,23 +34,14 @@ public:
     Money(long int value);
     Money(Number value = Number{0});
     Money(std::string numberString);
-    // TODO string constructor ?
 
 
     template <currencyTag K>
     explicit operator Money<K>() const
     {
-       /*
-       TODO
-        explicit operator Money<K>&()
-        Money<K>* m = new Money<K>{Number{0}};
-        *m += *this;
-        return *m;*/
-
         Money<K> m = Money<K>{Number{0}};
         m += *this;
         return m;
-
     }
     Number getRawValue() const
     {
@@ -57,7 +49,7 @@ public:
     }
     Number getMainValue() const
     {
-        return this->value/100;    // TODO should be optimized as special function
+        return this->value/100;
     }
     int getCentsValue() const
     {
@@ -73,7 +65,7 @@ public:
     // We only allow assignment within same currency - that's why Money<T>
     Money& operator=(Money<T> curr)
     {
-        // TODO sprawdzenie czy nie przepisujemy samych siebie, test do tego
+        // TODO ASK sprawdzenie czy nie przepisujemy samych siebie, test do tego
         this->value = curr.value;
         this->rateInEuro = curr.rateInEuro;
         return *this;
@@ -147,7 +139,7 @@ template<currencyTag T1, currencyTag T2> inline Money<T1> operator-(Money<T1> c1
     return c1-=c2;
 }
 
-template class Money<currencyTag::PLN>; // TODO fixme ASK ???
+template class Money<currencyTag::PLN>; // TODO fixme ASK
 template class Money<currencyTag::GBP>;
 
 

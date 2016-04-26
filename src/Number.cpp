@@ -134,7 +134,7 @@ Number& Number::operator*=(Number n)
 
 Number& Number::operator/=(const int a)
 {
-    if(a == 0) throw std::runtime_error{"div by 0"}; // TODO
+    if(a == 0) throw std::runtime_error{"div by 0"};
     if(*this == 0) return *this;
     int carry = 0;
     bool nonzeroSeen = false;
@@ -160,7 +160,8 @@ Number& Number::operator/=(const int a)
 Number& Number::operator-=(Number n)
 {
     if(n > *this) {
-        digitCellsArr.clear(); // TODO exception
+        throw std::runtime_error{"negative numbers are not supported"};
+        digitCellsArr.clear();
         return *this;
     }
 
@@ -206,7 +207,7 @@ bool operator==(Number n1, Number n2)
 
 bool operator>(Number n1, Number n2)
 {
-    if(n1.digitCellsArr.size() > n2.digitCellsArr.size()) // TODO negative?
+    if(n1.digitCellsArr.size() > n2.digitCellsArr.size()) // negative
         return true;
     else if( n1.digitCellsArr.size() < n2.digitCellsArr.size())
         return false;

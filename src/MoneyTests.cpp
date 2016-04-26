@@ -44,8 +44,7 @@ BOOST_AUTO_TEST_CASE( constructor_string )
 {
     Money<currencyTag::PLN> m{"111222333444555666"};
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
-    BOOST_CHECK_EQUAL( m.toString(), "PLN 1112223334445556.66");
-    //m.getMainValue should be tested here TODO
+    BOOST_CHECK_EQUAL( m.getMainValue(), Number{"1112223334445556"});
     BOOST_CHECK_EQUAL( m.getCentsValue(), 66);
     BOOST_CHECK_EQUAL( m.rateInEuro, PLN_RATE);
 }
