@@ -44,6 +44,8 @@ string Money<T>::toString() const
 }
 
 
+template class Money<currencyTag::PLN>; // TODO fixme ASK
+template class Money<currencyTag::GBP>;
 
 
 

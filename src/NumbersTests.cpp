@@ -10,8 +10,12 @@
 // Changes made
 namespace boost {
  namespace test_tools {
+#ifdef __linux__
   template<>
   struct print_log_value<Number> {
+#elif _WIN32
+  struct print_log_value {
+#endif // _WIN32
     void operator()( std::ostream& os, Number const& n)
     {
         ::operator<<(os, n);

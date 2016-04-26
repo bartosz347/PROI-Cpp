@@ -139,10 +139,6 @@ template<currencyTag T1, currencyTag T2> inline Money<T1> operator-(Money<T1> c1
     return c1-=c2;
 }
 
-template class Money<currencyTag::PLN>; // TODO fixme ASK
-template class Money<currencyTag::GBP>;
-
-
 
 #endif // CURRENCY_H
 
