@@ -14,7 +14,10 @@ Number::Number(long int number)
 
 Number::Number(std::string numberString)
 {
-   int length = numberString.size();
+    std::regex digitsRegex{"^[0-9]*$"};
+    if(!std::regex_match(numberString, digitsRegex))
+        throw std::runtime_error{"string contains characters other than digits"};
+    int length = numberString.size();
     if(length == 0) {
         digitCellsArr.push_back(0);
         return;

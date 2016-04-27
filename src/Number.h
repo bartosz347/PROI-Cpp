@@ -5,6 +5,7 @@
 #include <string>
 #include <list>
 #include <stdexcept>
+#include <regex>
 
 #define BASE 1000
 #define DIGITS 3

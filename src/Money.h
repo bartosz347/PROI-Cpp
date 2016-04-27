@@ -26,14 +26,14 @@ template <currencyTag T> class Money
 
 
 public:
+    Money(long int value);
+    Money(Number value = Number{0});
+    Money(std::string numberString);
+
     static std::string currencyTagNames[CURRENCIES_NO];
     static int currencyRates[CURRENCIES_NO];
 
     int rateInEuro;
-
-    Money(long int value);
-    Money(Number value = Number{0});
-    Money(std::string numberString);
 
 
     template <currencyTag K>
@@ -94,6 +94,7 @@ public:
 protected:
 private:
     Number value;
+    Number getInEuro() const;
 
     // ASK how to move it to Money.cpp ?
     template<currencyTag K>
@@ -114,7 +115,6 @@ private:
             this->value -= curr.getInEuro()*this->rateInEuro;
     }
 
-    Number getInEuro() const;
 };
 
 

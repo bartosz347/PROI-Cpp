@@ -26,19 +26,6 @@ namespace boost {
 
 BOOST_AUTO_TEST_SUITE(NumbersTests)
 
-BOOST_AUTO_TEST_CASE( conversion_test )
-{
-    srand(time(0));
-    for(int i = 0; i < 10; i++) {
-        {
-            int k = (std::rand() %100000);
-            Number n{k};
-            BOOST_CHECK_EQUAL( n.to_string(), std::to_string(k));
-        }
-    }
-}
-
-
 BOOST_AUTO_TEST_CASE( string_constructor_1 )
 {
     Number n{"123456"};
@@ -63,10 +50,17 @@ BOOST_AUTO_TEST_CASE( string_constructor_zeros )
     BOOST_CHECK_EQUAL (n.to_string(), "1");
 }
 
+BOOST_AUTO_TEST_CASE( string_constructor_bad_data )
+{
+    BOOST_CHECK_THROW( {
+                            Number n{"0g0"};
+                       }, std::runtime_error);
+}
+
 BOOST_AUTO_TEST_CASE( addition_random )
 {
     srand(time(0));
-    for(int i = 0; i< 100000; i++) {
+    for(int i = 0; i< 100; i++) {
         {
             int ax = (std::rand() %1000),
                 bx=std::rand() %1000;
@@ -201,15 +195,10 @@ BOOST_AUTO_TEST_CASE( div_zero_by )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)0));
 }
 
-BOOST_AUTO_TEST_CASE( div_by_zero )
+BOOST_AUTO_TEST_CASE( div_by_zero_exception )
 {
     Number a(150);
-    try {
-        a /= 0;
-    } catch(std::runtime_error e) {
-        BOOST_CHECK_EQUAL(e.what(), "div by 0");
-    }
-
+    BOOST_CHECK_THROW({a /= 0;}, std::runtime_error);
 }
 
 BOOST_AUTO_TEST_CASE( subtract_1 )
@@ -251,10 +240,6 @@ BOOST_AUTO_TEST_CASE( get_two_last_digits )
     Number a{68178};
     BOOST_CHECK_EQUAL(a.getTwoLastDigits(), 78);
 }
-
-// operator*
-// operator/
-// operator-
 
 
 BOOST_AUTO_TEST_SUITE_END()
