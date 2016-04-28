@@ -104,6 +104,8 @@ BOOST_AUTO_TEST_CASE( addition_4 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99997+5));
 }
 
+// TODO 999+9 -> zeby byla zmiana - dodanie bloku
+
 BOOST_AUTO_TEST_CASE( addition_zero )
 {
     Number a(99997);
@@ -117,6 +119,7 @@ BOOST_AUTO_TEST_CASE( multipl_simple )
     Number a(654981);
     a*=(11128);
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long long int)654981*11128));
+    // std int64_t TODO
 }
 
 BOOST_AUTO_TEST_CASE( multipl_simple_zero )
@@ -185,7 +188,7 @@ BOOST_AUTO_TEST_CASE( div_2 )
 {
     Number a(150);
     a /= 200;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)150/200));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)150/200)); //TODO do not use this cast, use static cast!
 }
 
 BOOST_AUTO_TEST_CASE( div_zero_by )
@@ -224,6 +227,8 @@ BOOST_AUTO_TEST_CASE( check_if_numbers_equal )
     Number c(178);
 
     BOOST_CHECK_EQUAL(a == b && !(a == c), true);
+    // split into 2
+    // ..(a,b) TODO
 }
 
 BOOST_AUTO_TEST_CASE( check_greater_than )
@@ -233,6 +238,8 @@ BOOST_AUTO_TEST_CASE( check_greater_than )
     Number c(178);
 
     BOOST_CHECK_EQUAL(a > b && !(c > a), true);
+
+    //TODO
 }
 
 BOOST_AUTO_TEST_CASE( get_two_last_digits )

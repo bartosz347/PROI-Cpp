@@ -15,7 +15,7 @@ class Number
 public:
     std::list<int> digitCellsArr;
     Number(long int number = 0);
-    Number(std::string numberString);
+    Number(std::string numberString); // todo make explicit n+="xyz"!
 
     std::string to_string() const;
 
@@ -64,7 +64,7 @@ private:
 bool operator==(Number n1, Number n2);
 bool operator>(Number n1, Number n2);
 
-inline Number& operator/(Number n, const int a)
+inline Number& operator/(Number n, const int a) // TODO nie przez referencje - n znika po wyjsciu z funkcji
 {
     return n/=a;
 }

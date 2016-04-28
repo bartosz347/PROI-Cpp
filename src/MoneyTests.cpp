@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE( same_currency_and_equal_value )
     Money<currencyTag::PLN> c2 (1234);
     Money<currencyTag::GBP> c3 (20);
     Money<currencyTag::PLN> c4 (244);
-    BOOST_CHECK_EQUAL(c1 == c2 && !(c1 == c3) && !(c1 == c4), true);
+    BOOST_CHECK_EQUAL(c1 == c2 && !(c1 == c3) && !(c1 == c4), true); //TODO split
 }
 
 // =
@@ -166,7 +166,8 @@ BOOST_AUTO_TEST_CASE( conversion_test )
 {
     Money<currencyTag::PLN> c1 {1234};
     Money<currencyTag::GBP> c2 {0};
-    c2 = (Money<currencyTag::GBP>) c1;
+    //c2 = (Money<currencyTag::GBP>) c1;
+    c2 *= c1;
     BOOST_CHECK_EQUAL( c2.getRawValue(), (1234/PLN_RATE)*GBP_RATE);
 }
 

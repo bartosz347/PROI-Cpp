@@ -22,18 +22,19 @@ template <currencyTag T> class Money
 {
     template<currencyTag K> // Lets us access private properties (like value)
                             //from all variations of Money http://stackoverflow.com/a/6958216
-    friend class Money;
+    friend class Money; // todo REMOVE
+    // move 'comma' to number todo
 
 
 public:
-    Money(long int value);
+    Money(long int value); //todo redundant
     Money(Number value = Number{0});
     Money(std::string numberString);
 
     static std::string currencyTagNames[CURRENCIES_NO];
     static int currencyRates[CURRENCIES_NO];
 
-    int rateInEuro;
+    int rateInEuro; // should be modif? todo
 
 
     template <currencyTag K>
@@ -43,11 +44,11 @@ public:
         m += *this;
         return m;
     }
-    Number getRawValue() const
+    Number getRawValue() const //return const reference TODO
     {
         return this->value;
     }
-    Number getMainValue() const
+    Number getMainValue() const //return const reference TODO
     {
         return this->value/100;
     }
@@ -63,6 +64,9 @@ public:
 
 
     // We only allow assignment within same currency - that's why Money<T>
+    // perf issues
+    // implementacja operatorow tylko gdy mamy destruktor
+    // rule of 5 (3) c++
     Money& operator=(Money<T> curr)
     {
         // TODO ASK sprawdzenie czy nie przepisujemy samych siebie, test do tego
