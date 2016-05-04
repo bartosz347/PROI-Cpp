@@ -104,8 +104,6 @@ BOOST_AUTO_TEST_CASE( addition_4 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99997+5));
 }
 
-// TODO 999+9 -> zeby byla zmiana - dodanie bloku
-
 BOOST_AUTO_TEST_CASE( addition_zero )
 {
     Number a(99997);
@@ -212,6 +210,22 @@ BOOST_AUTO_TEST_CASE( subtract_1 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(68394-68310));
 }
 
+BOOST_AUTO_TEST_CASE( subtract_2 )
+{
+    Number a(946);
+    Number b(9846);
+    a -= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(946-9846));
+}
+
+BOOST_AUTO_TEST_CASE( subtract_3 ) //TODO
+{
+    Number a(946);
+    Number b(9846);
+    a -= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(946-9846));
+}
+
 BOOST_AUTO_TEST_CASE( subtract_zero )
 {
     Number a(68394);
@@ -224,7 +238,6 @@ BOOST_AUTO_TEST_CASE( check_if_numbers_equal_true )
 {
     Number a(68178);
     Number b(68178);
-    Number c(178);
 
     BOOST_CHECK(a == b);
 }
