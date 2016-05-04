@@ -56,14 +56,14 @@ BOOST_AUTO_TEST_CASE( string_constructor_bad_data )
                             Number n{"0g0"};
                        }, std::runtime_error);
 }
-
+// TODO REMOVE
 BOOST_AUTO_TEST_CASE( addition_random )
 {
     srand(time(0));
-    for(int i = 0; i< 100; i++) {
+    for(int i = 0; i< 100000; i++) {
         {
-            int ax = (std::rand() %1000),
-                bx=std::rand() %1000;
+            int ax = (std::rand() %1000000),
+                bx=std::rand() %10000000;
             Number a(ax);
             Number b(bx);
             a += b;
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE( addition_1 )
 BOOST_AUTO_TEST_CASE( addition_2 )
 {
     Number a(9999);
-    Number b(+99);
+    Number b(99);
     a += b;
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(9999+99));
 }

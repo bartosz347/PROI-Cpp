@@ -3,14 +3,14 @@
 
 #include <sstream>
 #include <string>
-#include <list>
+#include <vector>
 #include <stdexcept>
 #include <regex>
 
 class Number
 {
 public:
-    std::list<int> digitCellsArr;
+    std::vector<int> digitCellsArr;
     Number(std::string numberString); // todo make explicit n+="xyz"!
     Number(long int number = 0);
 
@@ -25,7 +25,7 @@ public:
 
     void trimZeros()
     {
-        std::list<int>::reverse_iterator selfIter = digitCellsArr.rbegin();
+        std::vector<int>::reverse_iterator selfIter = digitCellsArr.rbegin();
         bool wasFirstZero = *(digitCellsArr.begin()) == 0 ? true: false;
 
         while(selfIter != digitCellsArr.rend() && digitCellsArr.size() > 0) {
@@ -58,6 +58,7 @@ private:
     static const int MAX_DECIMALS_VALUE = 99;
 
     int carry;
+
 
 
 };

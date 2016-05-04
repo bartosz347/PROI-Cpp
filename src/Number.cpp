@@ -47,7 +47,7 @@ std::string Number::to_string() const
 {
     std::stringstream s;
     std::string ret;
-    std::list<int>::const_reverse_iterator rIter = digitCellsArr.crbegin(); // reverse iterator!
+    std::vector<int>::const_reverse_iterator rIter = digitCellsArr.crbegin(); // reverse iterator!
     if(*rIter == 0 && digitCellsArr.size() == 1) {
         s << "0";
         s >> ret;
@@ -76,28 +76,31 @@ std::string Number::to_string() const
 
 Number& Number::operator+=(Number n)
 {
-    std::list<int>::iterator nIter=n.digitCellsArr.begin(), selfIter=digitCellsArr.begin();
+    int nIndex = 0, selfIndex = 0;
+    int nSize = n.digitCellsArr.size(), selfSize = digitCellsArr.size();
 
     carry = 0;
-    while(nIter != n.digitCellsArr.end() && selfIter != digitCellsArr.end()) {
-        addTwo2DigitNumbers(*selfIter, *nIter, carry);
-        nIter++;
-        selfIter++;
+    while(nIndex < nSize && selfIndex < selfSize) {
+        addTwo2DigitNumbers(digitCellsArr[selfIndex], n.digitCellsArr[nIndex], carry);
+        nIndex++;
+        selfIndex++;
     }
 
-    while(nIter != n.digitCellsArr.end() ) {
-        selfIter--;
+    while(nIndex < nSize) {
+        selfIndex--;
         this->digitCellsArr.push_back(0);
-        selfIter++;
+        selfIndex++;
 
-        addTwo2DigitNumbers(*selfIter, *nIter, carry);
-        nIter++;
-        selfIter++;
+        addTwo2DigitNumbers(digitCellsArr[selfIndex],  n.digitCellsArr[nIndex], carry);
+        nIndex++;
+        selfIndex++;
     }
 
-    while(selfIter != digitCellsArr.end() ) {
-        addTwo2DigitNumbers(*selfIter, 0, carry);
-        selfIter++;
+    nSize = n.digitCellsArr.size(), selfSize = digitCellsArr.size();
+
+    while(selfIndex < selfSize ) {
+        addTwo2DigitNumbers(digitCellsArr[selfIndex], 0, carry);
+        selfIndex++;
     }
     if(carry > 0)
         this->digitCellsArr.push_back(carry);
@@ -108,10 +111,9 @@ Number& Number::operator+=(Number n)
 Number& Number::operator*=(int a)
 {
     int carry = 0;
-
-    for(std::list<int>::iterator selfIter=digitCellsArr.begin(); selfIter != digitCellsArr.end(); selfIter++) {
-        long int t = *selfIter*a + carry;
-        *selfIter = t % BASE;
+    for(unsigned int selfIndex = 0; selfIndex < digitCellsArr.size(); selfIndex++) {
+        long int t = digitCellsArr[selfIndex]*a + carry;
+        digitCellsArr[selfIndex] = t % BASE;
         carry = t/BASE;
     }
     if(carry > 0) {
@@ -124,19 +126,15 @@ Number& Number::operator*=(int a)
 
 Number& Number::operator*=(Number n)
 {
-    const Number mCopy_const = *this;
+    const Number mCopy_const = *this; // TODO??
     Number mCopy = mCopy_const;
     this->digitCellsArr.clear();
-    int i = 0;
-    for(std::list<int>::iterator nIter=n.digitCellsArr.begin(); nIter != n.digitCellsArr.end(); nIter++) {
-        mCopy *= *nIter;
-
-        for(int j = i; j > 0; j--) {
-            mCopy.digitCellsArr.push_front(0);
-        }
-        i ++;
+    int i = 1, nSize = n.digitCellsArr.size();
+    for(int nIndex = 0; nIndex < nSize; nIndex++) {
+        mCopy *= n.digitCellsArr[nIndex];
         *this += mCopy;
-        mCopy = mCopy_const;
+        i *= BASE;
+        mCopy = mCopy_const*i;
     }
     return *this;
 }
@@ -150,7 +148,7 @@ Number& Number::operator/=(const int a)
     bool nonzeroSeen = false;
     int elementToRemoveNo = 0;
 
-    for(std::list<int>::reverse_iterator rSelfIter = digitCellsArr.rbegin(); rSelfIter != digitCellsArr.rend(); rSelfIter++) {
+    for(std::vector<int>::reverse_iterator rSelfIter = digitCellsArr.rbegin(); rSelfIter != digitCellsArr.rend(); rSelfIter++) {
         *rSelfIter += carry * BASE;
         carry = *rSelfIter % a;
         *rSelfIter /= a;
@@ -175,7 +173,7 @@ Number& Number::operator-=(Number n)
         return *this;
     }
 
-    std::list<int>::iterator nIter = n.digitCellsArr.begin(),
+    std::vector<int>::iterator nIter = n.digitCellsArr.begin(),
                              selfIter = digitCellsArr.begin(),
                              tmpIter;
 
@@ -204,7 +202,7 @@ bool operator==(Number n1, Number n2)
     if(n1.digitCellsArr.size() != n2.digitCellsArr.size())
         return false;
 
-    for(std::list<int>::iterator n1_Iter=n1.digitCellsArr.begin(), n2_Iter=n2.digitCellsArr.begin(); n1_Iter != n1.digitCellsArr.end() && n2_Iter != n2.digitCellsArr.end(); )
+    for(std::vector<int>::iterator n1_Iter=n1.digitCellsArr.begin(), n2_Iter=n2.digitCellsArr.begin(); n1_Iter != n1.digitCellsArr.end() && n2_Iter != n2.digitCellsArr.end(); )
     {
         if(*n1_Iter != *n2_Iter)
             return false;
@@ -222,7 +220,7 @@ bool operator>(Number n1, Number n2)
     else if( n1.digitCellsArr.size() < n2.digitCellsArr.size())
         return false;
 
-    for(std::list<int>::reverse_iterator n1_Iter=n1.digitCellsArr.rbegin(), n2_Iter=n2.digitCellsArr.rbegin(); n1_Iter != n1.digitCellsArr.rend() && n2_Iter != n2.digitCellsArr.rend(); )
+    for(std::vector<int>::reverse_iterator n1_Iter=n1.digitCellsArr.rbegin(), n2_Iter=n2.digitCellsArr.rbegin(); n1_Iter != n1.digitCellsArr.rend() && n2_Iter != n2.digitCellsArr.rend(); )
     {
         if(*n1_Iter > *n2_Iter)
             return true;
