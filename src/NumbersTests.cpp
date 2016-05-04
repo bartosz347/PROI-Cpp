@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE( div_1 )
 {
     Number a(68178);
     a /= 143;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)68178/143));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(static_cast<int64_t>(68178/143)));
 }
 
 BOOST_AUTO_TEST_CASE( div_2 )
@@ -220,26 +220,37 @@ BOOST_AUTO_TEST_CASE( subtract_zero )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(68394-0));
 }
 
-BOOST_AUTO_TEST_CASE( check_if_numbers_equal )
+BOOST_AUTO_TEST_CASE( check_if_numbers_equal_true )
 {
     Number a(68178);
     Number b(68178);
     Number c(178);
 
-    BOOST_CHECK_EQUAL(a == b && !(a == c), true);
-    // split into 2
-    // ..(a,b) TODO
+    BOOST_CHECK(a == b);
 }
 
-BOOST_AUTO_TEST_CASE( check_greater_than )
+BOOST_AUTO_TEST_CASE( check_if_numbers_equal_false )
+{
+    Number a(68178);
+    Number c(178);
+
+    BOOST_CHECK(!(a == c));
+}
+
+BOOST_AUTO_TEST_CASE( check_greater_than_true )
 {
     Number a(12345);
     Number b(1234);
+
+    BOOST_CHECK(a > b);
+}
+
+BOOST_AUTO_TEST_CASE( check_greater_than_false )
+{
+    Number a(12345);
     Number c(178);
 
-    BOOST_CHECK_EQUAL(a > b && !(c > a), true);
-
-    //TODO
+    BOOST_CHECK(!(c > a));
 }
 
 BOOST_AUTO_TEST_CASE( get_decimals )

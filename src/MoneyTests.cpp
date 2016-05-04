@@ -127,13 +127,27 @@ BOOST_AUTO_TEST_CASE( get_difference_different_currency )
 }
 
 // ==
-BOOST_AUTO_TEST_CASE( same_currency_and_equal_value )
+BOOST_AUTO_TEST_CASE( same_currency_and_equal_value_true )
 {
     Money<CurrencyTag::PLN> c1 (1234);
     Money<CurrencyTag::PLN> c2 (1234);
-    Money<CurrencyTag::GBP> c3 (20);
-    Money<CurrencyTag::PLN> c4 (244);
-    BOOST_CHECK_EQUAL(c1 == c2 && !(c1 == c3) && !(c1 == c4), true); //TODO split
+    BOOST_CHECK(c1 == c2);
+}
+
+// ==
+BOOST_AUTO_TEST_CASE( same_currency_and_equal_value_false_1 )
+{
+    Money<CurrencyTag::PLN> c1 (1234);
+    Money<CurrencyTag::GBP> c2 (1234);
+    BOOST_CHECK(!(c1 == c2));
+}
+
+// ==
+BOOST_AUTO_TEST_CASE( same_currency_and_equal_value_false_2 )
+{
+    Money<CurrencyTag::PLN> c1 (1234);
+    Money<CurrencyTag::PLN> c2 (20);
+    BOOST_CHECK(!(c1 == c2));
 }
 
 // =
