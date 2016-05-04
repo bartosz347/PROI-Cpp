@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE(MoneyTests)
 
 BOOST_AUTO_TEST_CASE( constructor_empty )
 {
-    Money<CurrencyTag::PLN> m {};
+    Money<CurrencyTag::PLN> m{};
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
     BOOST_CHECK_EQUAL( m.getCentsValue(), 0);
     BOOST_CHECK_EQUAL( m.getMainValue(), Number{0});

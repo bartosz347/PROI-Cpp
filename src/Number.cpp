@@ -1,6 +1,5 @@
 #include "Number.h"
 
-#include <iostream> // TODO remove
 
 Number::Number(long int number)
 {
@@ -16,18 +15,15 @@ Number::Number(long int number)
 Number::Number(std::string numberString)
 {
 //TODO problem gcc version?
-// use boost regex
- try {
-    std::regex digitsRegex{"\\d+"};
 
-    if(std::regex_match(numberString, digitsRegex) == false)
-      throw std::runtime_error{"string contains characters other than digits"};
-      }
-      catch (const std::regex_error& e)
-      {
-std::cout << "XXXXX " << e.code() << std::endl;
-      throw;
-      }
+    #ifndef BOOST_REGEX
+        const std::regex digitsRegex{"^[0-9]*$"};
+        if(!std::regex_match(numberString, digitsRegex))
+    #elif
+        const boost::regex digitsRegex("^[0-9]*$");
+        if(boost::regex_match(numberString, digitsRegex) == false)
+    #endif
+            throw std::runtime_error{"string contains characters other than digits and blank"};
     int length = numberString.size();
     if(length == 0) {
         digitCellsArr.push_back(0);
