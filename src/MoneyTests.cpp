@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE( get_as_string )
 BOOST_AUTO_TEST_CASE( get_multiplied )
 {
     Money<CurrencyTag::PLN> m (10);
-    BOOST_CHECK_EQUAL((m*10).getRawValue(),10*10);
+    BOOST_CHECK_EQUAL((m*10).getValue(),10*10);
 }
 
 // *=
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE( multiply )
 {
     Money<CurrencyTag::PLN> c (10);
     c *= 10;
-    BOOST_CHECK_EQUAL(c.getRawValue(), 10*10);
+    BOOST_CHECK_EQUAL(c.getValue(), 10*10);
 }
 
 // +=
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE( add_same_currency )
     Money<CurrencyTag::PLN> c1 (1234);
     Money<CurrencyTag::PLN> c2 (567);
     c1+=c2;
-    BOOST_CHECK_EQUAL(c1.getRawValue(), 1234 + 567);
+    BOOST_CHECK_EQUAL(c1.getValue(), 1234 + 567);
 }
 
 // +=
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE( add_different_currency )
     Money<CurrencyTag::PLN> c1 (123400);
     Money<CurrencyTag::GBP> c2 (56700);
     c1 += c2;
-    BOOST_CHECK_EQUAL(c1.getRawValue(), 123400 + (56700/GBP_RATE)*PLN_RATE);
+    BOOST_CHECK_EQUAL(c1.getValue(), 123400 + (56700/GBP_RATE)*PLN_RATE);
 }
 
 // +
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE( get_sum_same_currency )
 {
     Money<CurrencyTag::PLN> c1 (1234);
     Money<CurrencyTag::PLN> c2 (567);
-    BOOST_CHECK_EQUAL((c1+c2).getRawValue(), 1234 + 567);
+    BOOST_CHECK_EQUAL((c1+c2).getValue(), 1234 + 567);
 }
 
 // +
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE( get_sum_different_currency )
 {
     Money<CurrencyTag::PLN> c1 (123400);
     Money<CurrencyTag::GBP> c2 (56700);
-    BOOST_CHECK_EQUAL((c1+c2).getRawValue(), 123400 + (56700/GBP_RATE)*PLN_RATE);
+    BOOST_CHECK_EQUAL((c1+c2).getValue(), 123400 + (56700/GBP_RATE)*PLN_RATE);
 }
 
 // -=
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE( subtract_same_currency )
     Money<CurrencyTag::PLN> c1 (1234);
     Money<CurrencyTag::PLN> c2 (567);
     c1 -= c2;
-    BOOST_CHECK_EQUAL(c1.getRawValue(), 1234 - 567);
+    BOOST_CHECK_EQUAL(c1.getValue(), 1234 - 567);
 }
 
 // -=
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE( subtract_different_currency )
     Money<CurrencyTag::PLN> c1 (123400);
     Money<CurrencyTag::GBP> c2 (56700);
     c1 -= c2;
-    BOOST_CHECK_EQUAL(c1.getRawValue(), 123400 - (56700/GBP_RATE)*PLN_RATE);
+    BOOST_CHECK_EQUAL(c1.getValue(), 123400 - (56700/GBP_RATE)*PLN_RATE);
 }
 
 // -
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE( get_difference_same_currency )
 {
     Money<CurrencyTag::PLN> c1 (1234);
     Money<CurrencyTag::PLN> c2 (567);
-    BOOST_CHECK_EQUAL((c1-c2).getRawValue(), 1234 - 567);
+    BOOST_CHECK_EQUAL((c1-c2).getValue(), 1234 - 567);
 }
 
 // -
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE( get_difference_different_currency )
 {
     Money<CurrencyTag::PLN> c1 (123400);
     Money<CurrencyTag::GBP> c2 (56700);
-    BOOST_CHECK_EQUAL((c1-c2).getRawValue(), 123400 - (56700/GBP_RATE)*PLN_RATE);
+    BOOST_CHECK_EQUAL((c1-c2).getValue(), 123400 - (56700/GBP_RATE)*PLN_RATE);
 }
 
 // ==
@@ -146,7 +146,7 @@ BOOST_AUTO_TEST_CASE( assign_test )
     // We only allow assignment within same currency!
     // c1 = c3 //error
     c1 = c2;
-    BOOST_CHECK_EQUAL( c1 == c2 && c1.getRawValue() == c2.getRawValue() && c1.getEuroRate() == c2.getEuroRate(), 1);
+    BOOST_CHECK_EQUAL( c1 == c2 && c1.getValue() == c2.getValue() && c1.getEuroRate() == c2.getEuroRate(), 1);
 }
 
 BOOST_AUTO_TEST_CASE( conversion_test )
@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE( conversion_test )
     Money<CurrencyTag::PLN> c1 {1234};
     Money<CurrencyTag::GBP> c2 {0};
     c2 = (Money<CurrencyTag::GBP>) c1;
-    BOOST_CHECK_EQUAL( c2.getRawValue(), (1234/PLN_RATE)*GBP_RATE);
+    BOOST_CHECK_EQUAL( c2.getValue(), (1234/PLN_RATE)*GBP_RATE);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

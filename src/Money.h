@@ -12,10 +12,7 @@
 
 template <CurrencyTag T> class Money
 {
-    template<CurrencyTag K> // Lets us access private properties (like value)
-                            //from all variations of Money http://stackoverflow.com/a/6958216
-    friend class Money; // todo REMOVE
-    // move 'comma' to number todo
+
 
 
 public:
@@ -33,7 +30,8 @@ public:
         m += *this;
         return m;
     }
-    Number getRawValue() const //return const reference TODO
+
+    Number getValue() const //return const reference TODO
     {
         return this->value;
     }
@@ -43,13 +41,14 @@ public:
     }
     int getCentsValue() const
     {
-        return this->value.getTwoLastDigits();
+        return this->value.getDecimals();
     }
     std::string toString() const;
     std::string getStringName() const
     {
         return conf.CurrencyTagNames[static_cast<int>(T)];
     }
+    Number getInEuro() const;
 
 
     // We only allow assignment within same currency - that's why Money<T>
@@ -88,7 +87,7 @@ protected:
 private:
     Number value;
     const static struct MoneyConfig conf;
-    Number getInEuro() const;
+
 
 
     // ASK how to move it to Money.cpp ?
@@ -96,7 +95,7 @@ private:
     void add(Money<K> curr)
     {
         if(T == K)
-            this->value +=curr.value;
+            this->value +=curr.getValue();
         else
             this->value += curr.getInEuro()*this->getEuroRate();
     }
@@ -105,7 +104,7 @@ private:
     void subtract(Money<K> curr)
     {
         if(T == K)
-            this->value -=curr.value;
+            this->value -= curr.getValue();
         else
             this->value -= curr.getInEuro()*this->getEuroRate();
     }
@@ -115,7 +114,7 @@ private:
 
 template<CurrencyTag T1, CurrencyTag T2> inline bool operator==(const Money<T1>& c1, const Money<T2>& c2)
 {
-    return (T1 == T2 && c1.getRawValue() == c2.getRawValue()) ? true : false;
+    return (T1 == T2 && c1.getValue() == c2.getValue()) ? true : false;
 }
 template<CurrencyTag T> inline Money<T> operator*(const int m, Money<T> c1)
 {

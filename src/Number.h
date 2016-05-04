@@ -45,9 +45,9 @@ public:
         a = (a+b+aCarry)%BASE;
         carry = (ax+b+aCarry)/BASE;
     }
-    int getTwoLastDigits() const
+    int getDecimals() const
     {
-        return *(digitCellsArr.begin()) % 100;
+        return *(digitCellsArr.begin()) % (MAX_DECIMALS_VALUE+1);
     }
 
 
@@ -55,6 +55,7 @@ protected:
 private:
     static const int DIGITS = 3;
     static const int BASE = 1000;
+    static const int MAX_DECIMALS_VALUE = 99;
 
     int carry;
 

@@ -242,10 +242,10 @@ BOOST_AUTO_TEST_CASE( check_greater_than )
     //TODO
 }
 
-BOOST_AUTO_TEST_CASE( get_two_last_digits )
+BOOST_AUTO_TEST_CASE( get_decimals )
 {
     Number a{68178};
-    BOOST_CHECK_EQUAL(a.getTwoLastDigits(), 78);
+    BOOST_CHECK_EQUAL(a.getDecimals(), 78);
 }
 
 
