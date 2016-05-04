@@ -2,44 +2,34 @@
 
 using namespace std;
 
-template<currencyTag T>
+template<CurrencyTag T>
 const struct MoneyConfig Money<T>::conf;
 
-template<currencyTag T>
-std::string Money<T>::Money::currencyTagNames[CURRENCIES_NO] = {CURRENCIES_STRING};
 
-template<currencyTag T>
-int Money<T>::Money::currencyRates[CURRENCIES_NO] = {CURRENCIES_RATES};
-
-
-
-template<currencyTag T>
+template<CurrencyTag T>
 Money<T>::Money(long int value):
-    rateInEuro(currencyRates[static_cast<int>(T)]), // like 420
     value(Number{value})    // realValue := value/100
 {}
 
-template<currencyTag T>
+template<CurrencyTag T>
 Money<T>::Money(Number value) :
-    rateInEuro(currencyRates[static_cast<int>(T)]),
     value{value} // realValue := value/100
 {}
 
-template<currencyTag T>
+template<CurrencyTag T>
 Money<T>::Money(std::string numberString) :
-    rateInEuro(currencyRates[static_cast<int>(T)]),
     value{Number{numberString}}
 {}
 
 
-template<currencyTag T>
+template<CurrencyTag T>
 Number Money<T>::getInEuro() const
 {
-    return this->value / this->rateInEuro;
+    return this->value / this->getEuroRate();
 }
 
 
-template<currencyTag T>
+template<CurrencyTag T>
 string Money<T>::toString() const
 {
     return string(this->getStringName() + Money::conf.CURRENCY_SEPARATOR
@@ -47,8 +37,8 @@ string Money<T>::toString() const
 }
 
 
-template class Money<currencyTag::PLN>; // TODO fixme ASK
-template class Money<currencyTag::GBP>;
+template class Money<CurrencyTag::PLN>; // TODO fixme ASK
+template class Money<CurrencyTag::GBP>;
 
 
 
