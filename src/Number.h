@@ -11,8 +11,8 @@ class Number
 {
 public:
     std::list<int> digitCellsArr;
-    Number(long int number = 0);
     Number(std::string numberString); // todo make explicit n+="xyz"!
+    Number(long int number = 0);
 
     std::string to_string() const;
 

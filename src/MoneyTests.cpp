@@ -11,7 +11,7 @@
 BOOST_AUTO_TEST_SUITE(MoneyTests)
 
 
-BOOST_AUTO_TEST_CASE( constructor_long_int )
+BOOST_AUTO_TEST_CASE( constructor_empty )
 {
     Money<CurrencyTag::PLN> m {};
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
@@ -30,7 +30,7 @@ BOOST_AUTO_TEST_CASE( constructor_number )
 
 BOOST_AUTO_TEST_CASE( constructor_string )
 {
-    Money<CurrencyTag::PLN> m{"111222333444555666"};
+    Money<CurrencyTag::PLN> m{ static_cast<std::string>("111222333444555666") };
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
     BOOST_CHECK_EQUAL( m.getMainValue(), Number{"1112223334445556"});
     BOOST_CHECK_EQUAL( m.getCentsValue(), 66);

@@ -5,21 +5,11 @@ using namespace std;
 template<CurrencyTag T>
 const struct MoneyConfig Money<T>::conf;
 
-
-template<CurrencyTag T>
-Money<T>::Money(long int value):
-    value(Number{value})    // realValue := value/100
-{}
-
 template<CurrencyTag T>
 Money<T>::Money(Number value) :
     value{value} // realValue := value/100
 {}
 
-template<CurrencyTag T>
-Money<T>::Money(std::string numberString) :
-    value{Number{numberString}}
-{}
 
 
 template<CurrencyTag T>

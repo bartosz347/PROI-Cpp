@@ -19,9 +19,7 @@ template <CurrencyTag T> class Money
 
 
 public:
-    Money(long int value); //todo redundant
     Money(Number value = Number{0});
-    Money(std::string numberString);
     int getEuroRate() const {
         return conf.CurrencyRates[static_cast<int>(T)];
     }
