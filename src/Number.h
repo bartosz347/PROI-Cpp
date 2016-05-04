@@ -7,11 +7,13 @@
 #include <stdexcept>
 #include <regex>
 
+
+
 class Number
 {
 public:
     std::vector<int> digitCellsArr;
-    Number(std::string numberString); // todo make explicit n+="xyz"!
+    Number(std::string numberString); // explicit to avoid n+="xyz" ASK TODO
     Number(long int number = 0);
 
     std::string to_string() const;
@@ -58,29 +60,42 @@ private:
     static const int MAX_DECIMALS_VALUE = 99;
 
     int carry;
+    bool isNegative = false;
+    bool addingAbs=false;
+
+    void setSignDivMult(const Number &a, const Number &b)
+    {
+        if(a.isNegative && b.isNegative)
+            isNegative = false;
+        else if(!a.isNegative && !b.isNegative)
+            isNegative = false;
+        else
+            isNegative = true;
+    }
+
+    void setSignAddition(const Number &a, const Number &b);
 
 
 
 };
 
-bool operator==(Number n1, Number n2);
-bool operator>(Number n1, Number n2);
 
-inline Number& operator/(Number n, const int a) // TODO nie przez referencje - n znika po wyjsciu z funkcji
+
+inline Number operator/(Number n, const int a)
 {
     return n/=a;
 }
 
-inline Number& operator*( const int a, Number n)
+inline Number operator*( const int a, Number n)
 {
     return n*=a;
 }
 
-inline Number& operator*(Number n, const int a)
+inline Number operator*(Number n, const int a)
 {
     return n*=a;
 }
-inline Number& operator-(Number n1, Number n2)
+inline Number operator-(Number n1, Number n2)
 {
     return n1-=n2;
 }
@@ -98,7 +113,8 @@ static inline std::ostream& operator<< (std::ostream& os, const Number& n)
 }
 
 
-
+bool operator==(Number n1, Number n2);
+bool operator>(const Number& n1, const Number& n2);
 
 
 #endif // NUMBERS_H_INCLUDED

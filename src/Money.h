@@ -51,18 +51,6 @@ public:
     Number getInEuro() const;
 
 
-    // We only allow assignment within same currency - that's why Money<T>
-    // perf issues
-    // implementacja operatorow tylko gdy mamy destruktor
-    // rule of 5 (3) c++
-    Money& operator=(Money<T> curr)
-    {
-        // TODO ASK sprawdzenie czy nie przepisujemy samych siebie, test do tego
-        this->value = curr.value;
-
-        return *this;
-    }
-
     template <CurrencyTag K>
     Money& operator+=(const Money<K> money)
     {

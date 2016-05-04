@@ -30,7 +30,8 @@ BOOST_AUTO_TEST_CASE( constructor_number )
 
 BOOST_AUTO_TEST_CASE( constructor_string )
 {
-    Money<CurrencyTag::PLN> m{ static_cast<std::string>("111222333444555666") };
+    std::string n{"111222333444555666"};
+    Money<CurrencyTag::PLN> m(n);
     BOOST_CHECK_EQUAL( m.getStringName(), "PLN");
     BOOST_CHECK_EQUAL( m.getMainValue(), Number{"1112223334445556"});
     BOOST_CHECK_EQUAL( m.getCentsValue(), 66);
@@ -159,7 +160,7 @@ BOOST_AUTO_TEST_CASE( assign_test )
     // We only allow assignment within same currency!
     // c1 = c3 //error
     c1 = c2;
-    BOOST_CHECK_EQUAL( c1 == c2 && c1.getValue() == c2.getValue() && c1.getEuroRate() == c2.getEuroRate(), 1);
+    BOOST_CHECK_EQUAL( c1 == c2 && c1.getValue() == c2.getValue() && c1.getEuroRate() == c2.getEuroRate(), 1); //TODO
 }
 
 BOOST_AUTO_TEST_CASE( conversion_test )

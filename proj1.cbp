@@ -35,6 +35,7 @@
 		</Compiler>
 		<Unit filename="src/Money.cpp" />
 		<Unit filename="src/Money.h" />
+		<Unit filename="src/MoneyConfig.h" />
 		<Unit filename="src/MoneyTests.cpp" />
 		<Unit filename="src/Number.cpp" />
 		<Unit filename="src/Number.h" />

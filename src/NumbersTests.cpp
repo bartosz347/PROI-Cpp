@@ -26,6 +26,7 @@ namespace boost {
 
 BOOST_AUTO_TEST_SUITE(NumbersTests)
 
+
 BOOST_AUTO_TEST_CASE( string_constructor_1 )
 {
     Number n{"123456"};
@@ -55,6 +56,18 @@ BOOST_AUTO_TEST_CASE( string_constructor_bad_data )
     BOOST_CHECK_THROW( {
                             Number n{"0g0"};
                        }, std::runtime_error);
+}
+
+BOOST_AUTO_TEST_CASE( string_constructor_negative )
+{
+    Number n{"-666"};
+    BOOST_CHECK_EQUAL (n.to_string(), "-666");
+}
+
+BOOST_AUTO_TEST_CASE( int_constructor_negative )
+{
+    Number n{-123456};
+    BOOST_CHECK_EQUAL (n.to_string(), "-123456");
 }
 // TODO REMOVE
 BOOST_AUTO_TEST_CASE( addition_random )
@@ -112,12 +125,35 @@ BOOST_AUTO_TEST_CASE( addition_zero )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(99997));
 }
 
+BOOST_AUTO_TEST_CASE( addition_negative_first )
+{
+    Number a(-125);
+    Number b(250);
+    a += b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-125+250));
+}
+
+BOOST_AUTO_TEST_CASE( addition_negative_second )
+{
+    Number a(125);
+    Number b(-250);
+    a += b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(125-250));
+}
+
+BOOST_AUTO_TEST_CASE( addition_negative_both )
+{
+    Number a(-125);
+    Number b(-950);
+    a += b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-950-125));
+}
+
 BOOST_AUTO_TEST_CASE( multipl_simple )
 {
     Number a(654981);
-    a*=(11128);
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long long int)654981*11128));
-    // std int64_t TODO
+    a*=(1112);
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(static_cast<uint64_t>(654981*1112)));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_simple_zero )
@@ -125,6 +161,20 @@ BOOST_AUTO_TEST_CASE( multipl_simple_zero )
     Number a(654981);
     a*=(0);
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long long int)654981*0));
+}
+
+BOOST_AUTO_TEST_CASE( multipl_simple_negative_1 )
+{
+    Number a(500);
+    a*=(-2);
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-2*500));
+}
+
+BOOST_AUTO_TEST_CASE( multipl_simple_negative_2 )
+{
+    Number a(-500);
+    a*=(2);
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-2*500));
 }
 
 BOOST_AUTO_TEST_CASE( multipl_1 )
@@ -175,6 +225,30 @@ BOOST_AUTO_TEST_CASE( multipl_zero )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(0*129));
 }
 
+BOOST_AUTO_TEST_CASE( multipl_negative_1 )
+{
+    Number a(-30);
+    Number b(1000);
+    a *= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-30*1000));
+}
+
+BOOST_AUTO_TEST_CASE( multipl_negative_2 )
+{
+    Number a(30);
+    Number b(-1000);
+    a *= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-30*1000));
+}
+
+BOOST_AUTO_TEST_CASE( multipl_negative_3 )
+{
+    Number a(-30);
+    Number b(-1000);
+    a *= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-30*-1000));
+}
+
 BOOST_AUTO_TEST_CASE( div_1 )
 {
     Number a(68178);
@@ -186,14 +260,14 @@ BOOST_AUTO_TEST_CASE( div_2 )
 {
     Number a(150);
     a /= 200;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)150/200)); //TODO do not use this cast, use static cast!
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(static_cast<int64_t>(150/200))); //TODO do not use this cast, use static cast!
 }
 
 BOOST_AUTO_TEST_CASE( div_zero_by )
 {
     Number a(0);
     a /= 200;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string((long int)0));
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(0));
 }
 
 BOOST_AUTO_TEST_CASE( div_by_zero_exception )
@@ -202,7 +276,28 @@ BOOST_AUTO_TEST_CASE( div_by_zero_exception )
     BOOST_CHECK_THROW({a /= 0;}, std::runtime_error);
 }
 
-BOOST_AUTO_TEST_CASE( subtract_1 )
+BOOST_AUTO_TEST_CASE( div_negative_first )
+{
+    Number a(-450);
+    a /= 5;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(450/-5));
+}
+
+BOOST_AUTO_TEST_CASE( div_negative_second )
+{
+    Number a(450);
+    a /= -5;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(450/-5));
+}
+
+BOOST_AUTO_TEST_CASE( div_negative_both )
+{
+    Number a(-450);
+    a /= -5;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-450/-5));
+}
+
+BOOST_AUTO_TEST_CASE( subtract_positive_res )
 {
     Number a(68394);
     Number b(68310);
@@ -210,7 +305,7 @@ BOOST_AUTO_TEST_CASE( subtract_1 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(68394-68310));
 }
 
-BOOST_AUTO_TEST_CASE( subtract_2 )
+BOOST_AUTO_TEST_CASE( subtract_negative_result )
 {
     Number a(946);
     Number b(9846);
@@ -218,12 +313,36 @@ BOOST_AUTO_TEST_CASE( subtract_2 )
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(946-9846));
 }
 
-BOOST_AUTO_TEST_CASE( subtract_3 ) //TODO
+BOOST_AUTO_TEST_CASE( subtract_1 )
 {
     Number a(946);
     Number b(9846);
     a -= b;
     BOOST_CHECK_EQUAL(a.to_string(),std::to_string(946-9846));
+}
+
+BOOST_AUTO_TEST_CASE( subtract_2 )
+{
+    Number a(-946);
+    Number b(-9846);
+    a -= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-946+9846));
+}
+
+BOOST_AUTO_TEST_CASE( subtract_3 )
+{
+    Number a(946);
+    Number b(-9846);
+    a -= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(946+9846));
+}
+
+BOOST_AUTO_TEST_CASE( subtract_4 )
+{
+    Number a(-946);
+    Number b(9846);
+    a -= b;
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(-946-9846));
 }
 
 BOOST_AUTO_TEST_CASE( subtract_zero )

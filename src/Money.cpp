@@ -11,7 +11,6 @@ Money<T>::Money(Number value) :
 {}
 
 
-
 template<CurrencyTag T>
 Number Money<T>::getInEuro() const
 {
