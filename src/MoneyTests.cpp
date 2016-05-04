@@ -36,7 +36,6 @@ BOOST_AUTO_TEST_CASE( constructor_string )
     BOOST_CHECK_EQUAL( m.getCentsValue(), 66);
 }
 
-
 BOOST_AUTO_TEST_CASE( get_as_string )
 {
     Money<CurrencyTag::PLN> m{1234};
