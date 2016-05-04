@@ -10,8 +10,8 @@ VALUES *loaded* from external source
     #define CURRENCIES_RATES 400,200,300
     #define CURRENCIES_NO 3
 
-    #define DECIMAL_SEPARATOR "."
-    #define CURRENCY_SEPARATOR " "
+
+
 */
 
 #define PLN_RATE 400
@@ -166,8 +166,7 @@ BOOST_AUTO_TEST_CASE( conversion_test )
 {
     Money<currencyTag::PLN> c1 {1234};
     Money<currencyTag::GBP> c2 {0};
-    //c2 = (Money<currencyTag::GBP>) c1;
-    c2 *= c1;
+    c2 = (Money<currencyTag::GBP>) c1;
     BOOST_CHECK_EQUAL( c2.getRawValue(), (1234/PLN_RATE)*GBP_RATE);
 }
 

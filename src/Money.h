@@ -2,6 +2,7 @@
 #define CURRENCY_H
 
 #include "Number.h"
+#include "MoneyConfig.h"
 #include <string>
 
 #define CURRENCIES PLN,GBP,USD
@@ -9,8 +10,7 @@
 #define CURRENCIES_RATES 400,200,300
 #define CURRENCIES_NO 3
 
-#define DECIMAL_SEPARATOR "."
-#define CURRENCY_SEPARATOR " "
+
 
 enum class currencyTag
 {
@@ -18,7 +18,7 @@ enum class currencyTag
 };
 
 
-template <currencyTag T> class Money
+template <currencyTags T> class Money
 {
     template<currencyTag K> // Lets us access private properties (like value)
                             //from all variations of Money http://stackoverflow.com/a/6958216
@@ -98,6 +98,7 @@ public:
 protected:
 private:
     Number value;
+    const static struct MoneyConfig conf;
     Number getInEuro() const;
 
     // ASK how to move it to Money.cpp ?

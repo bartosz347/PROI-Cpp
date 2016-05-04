@@ -7,9 +7,6 @@
 #include <stdexcept>
 #include <regex>
 
-#define BASE 1000
-#define DIGITS 3
-
 class Number
 {
 public:
@@ -56,6 +53,9 @@ public:
 
 protected:
 private:
+    static const int DIGITS = 3;
+    static const int BASE = 1000;
+
     int carry;
 
 

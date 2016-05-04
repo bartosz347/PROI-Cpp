@@ -3,6 +3,9 @@
 using namespace std;
 
 template<currencyTag T>
+const struct MoneyConfig Money<T>::conf;
+
+template<currencyTag T>
 std::string Money<T>::Money::currencyTagNames[CURRENCIES_NO] = {CURRENCIES_STRING};
 
 template<currencyTag T>
@@ -39,8 +42,8 @@ Number Money<T>::getInEuro() const
 template<currencyTag T>
 string Money<T>::toString() const
 {
-    return string(this->getStringName() + CURRENCY_SEPARATOR
-                  + to_string(this->getMainValue()) + DECIMAL_SEPARATOR + to_string(this->getCentsValue()));
+    return string(this->getStringName() + Money::conf.CURRENCY_SEPARATOR
+                  + to_string(this->getMainValue()) + Money::conf.DECIMAL_SEPARATOR + to_string(this->getCentsValue()));
 }
 
 
