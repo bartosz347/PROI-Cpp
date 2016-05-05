@@ -19,15 +19,17 @@ Number::Number(long int number)
 Number::Number(std::string numberString)
 {
     //TODO problem gcc version? And problem with C++11 vs boost version...
-    #ifndef BOOST_REGEX
-        const std::regex digitsRegex{"^-?[0-9]*$"};
-        if(!std::regex_match(numberString, digitsRegex))
-    #else
-        const boost::regex digitsRegex("^-?[0-9]*$");
-        boost::smatch str_matches;
-        if(!boost::regex_match(numberString, digitsRegex))
-    #endif
-           throw std::runtime_error{"string contains characters other than digits and minus"};
+#ifndef BOOST_REGEX
+    const std::regex digitsRegex {
+        "^-?[0-9]*$"
+    };
+    if(!std::regex_match(numberString, digitsRegex))
+#else
+    const boost::regex digitsRegex("^-?[0-9]*$");
+    boost::smatch str_matches;
+    if(!boost::regex_match(numberString, digitsRegex))
+#endif
+        throw std::runtime_error {"string contains characters other than digits and minus"};
     int length = numberString.size();
     if(length == 0) {
         digitCellsArr.push_back(0);
@@ -89,16 +91,15 @@ Number& Number::operator+=(Number n)
     if(!addingAbs) {
         if(!isNegative && n.isNegative) {
 
-                 this->isNegative=false;
-         n.isNegative=false;
+            this->isNegative=false;
+            n.isNegative=false;
             return *this-=n;
         }
-         if(isNegative && !n.isNegative) {
-                n.isNegative=true;
-                this->isNegative=false;
-            return  *this -=n;
-         }
-        //setSignAddition(*this, n);
+        if(isNegative && !n.isNegative) {
+            n.isNegative=false;
+            this->isNegative=false;
+            return  n -= *this;;
+        }
     }
 
     int nIndex = 0, selfIndex = 0;
@@ -194,23 +195,7 @@ Number& Number::operator/=(int a)
     trimZeros();
     return *this;
 }
- void Number::setSignAddition(const Number &a, const Number &b)
-    {
-        if(a.isNegative && b.isNegative)
-            isNegative = true;
-        else if(!a.isNegative && !b.isNegative)
-            isNegative = false;
-        else if(!a.isNegative)
-            if(a > b)
-                isNegative = false;
-            else
-                isNegative = true;
-        else
-            if(a>b)
-                isNegative = true;
-            else
-                isNegative = false;
-    }
+
 
 
 Number& Number::operator-=(Number n)
@@ -227,37 +212,36 @@ Number& Number::operator-=(Number n)
         isNegative=false;
         return *this+=n;
     } //OK
-   if(n.isNegative && isNegative)
-   {
-       Number tmp = *this;
-       *this = n;
-       n = tmp;
-       this->isNegative=false;
-       n.isNegative = false;
-   }// OK
-   /*else
-
-   if(this->isNegative && !n.isNegative) {
+    if(n.isNegative && isNegative) {
         Number tmp = *this;
         *this = n;
         n = tmp;
-        isNegative = false;
-        n.isNegative  = false;
-        addingAbs=true; }
-*/
-  else if(n > *this) {
+        this->isNegative=false;
+        n.isNegative = false;
+    }// OK
+    /*else
+
+    if(this->isNegative && !n.isNegative) {
+         Number tmp = *this;
+         *this = n;
+         n = tmp;
+         isNegative = false;
+         n.isNegative  = false;
+         addingAbs=true; }
+    */
+    else if(n > *this) {
         Number tmp = *this;
         *this = n;
         n = tmp;
         isNegative = true;
-   }
+    }
 
 
 
-   //
+    //
     std::vector<int>::iterator nIter = n.digitCellsArr.begin(),
-                             selfIter = digitCellsArr.begin(),
-                             tmpIter;
+                               selfIter = digitCellsArr.begin(),
+                               tmpIter;
 
     while(nIter != n.digitCellsArr.end()) {
         if(*selfIter < *nIter) {
@@ -266,8 +250,7 @@ Number& Number::operator-=(Number n)
             --*tmpIter;
             *(selfIter) -= *nIter;
             *(selfIter) += BASE;
-        }
-        else {
+        } else {
             *(selfIter) -= *nIter;
         }
         nIter++;
@@ -284,8 +267,7 @@ bool operator==(Number n1, Number n2)
     if(n1.digitCellsArr.size() != n2.digitCellsArr.size())
         return false;
 
-    for(auto n1_Iter=n1.digitCellsArr.cbegin(), n2_Iter=n2.digitCellsArr.cbegin(); n1_Iter != n1.digitCellsArr.cend() && n2_Iter != n2.digitCellsArr.cend(); )
-    {
+    for(auto n1_Iter=n1.digitCellsArr.cbegin(), n2_Iter=n2.digitCellsArr.cbegin(); n1_Iter != n1.digitCellsArr.cend() && n2_Iter != n2.digitCellsArr.cend(); ) {
         if(*n1_Iter != *n2_Iter)
             return false;
         n2_Iter++;
@@ -297,13 +279,12 @@ bool operator==(Number n1, Number n2)
 
 bool operator>(const Number& n1, const Number& n2)
 {
-    if(n1.digitCellsArr.size() > n2.digitCellsArr.size()) // negative todo
+    if(n1.digitCellsArr.size() > n2.digitCellsArr.size())
         return true;
     else if( n1.digitCellsArr.size() < n2.digitCellsArr.size())
         return false;
 
-    for(auto n1_Iter=n1.digitCellsArr.crbegin(), n2_Iter=n2.digitCellsArr.crbegin(); n1_Iter != n1.digitCellsArr.crend() && n2_Iter != n2.digitCellsArr.crend(); )
-    {
+    for(auto n1_Iter=n1.digitCellsArr.crbegin(), n2_Iter=n2.digitCellsArr.crbegin(); n1_Iter != n1.digitCellsArr.crend() && n2_Iter != n2.digitCellsArr.crend(); ) {
         if(*n1_Iter > *n2_Iter)
             return true;
         else if(*n1_Iter < *n2_Iter)

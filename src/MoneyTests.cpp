@@ -2,11 +2,8 @@
 
 #include "Money.h"
 
-
-#define PLN_RATE 400
-#define GBP_RATE 200
-
-
+static const int PLN_RATE = 400;
+static const int GBP_RATE = 200;
 
 BOOST_AUTO_TEST_SUITE(MoneyTests)
 
@@ -151,7 +148,7 @@ BOOST_AUTO_TEST_CASE( same_currency_and_equal_value_false_2 )
 }
 
 // =
-BOOST_AUTO_TEST_CASE( assign_test )
+BOOST_AUTO_TEST_CASE( assign_test_values )
 {
     Money<CurrencyTag::PLN> c1 (123400);
     Money<CurrencyTag::PLN> c2 (647952);
@@ -160,7 +157,33 @@ BOOST_AUTO_TEST_CASE( assign_test )
     // We only allow assignment within same currency!
     // c1 = c3 //error
     c1 = c2;
-    BOOST_CHECK_EQUAL( c1 == c2 && c1.getValue() == c2.getValue() && c1.getEuroRate() == c2.getEuroRate(), 1); //TODO
+    BOOST_CHECK( c1 == c2 && c1.getValue() == c2.getValue());
+}
+
+// =
+BOOST_AUTO_TEST_CASE( assign_test_equality )
+{
+    Money<CurrencyTag::PLN> c1 (123400);
+    Money<CurrencyTag::PLN> c2 (647952);
+
+    Money<CurrencyTag::GBP> c3 (56700);
+    // We only allow assignment within same currency!
+    // c1 = c3 //error
+    c1 = c2;
+    BOOST_CHECK( c1 == c2 );
+}
+
+// =
+BOOST_AUTO_TEST_CASE( assign_test_rates )
+{
+    Money<CurrencyTag::PLN> c1 (123400);
+    Money<CurrencyTag::PLN> c2 (647952);
+
+    Money<CurrencyTag::GBP> c3 (56700);
+    // We only allow assignment within same currency!
+    // c1 = c3 //error
+    c1 = c2;
+    BOOST_CHECK( c1.getEuroRate() == c2.getEuroRate());
 }
 
 BOOST_AUTO_TEST_CASE( conversion_test )

@@ -6,10 +6,6 @@
 #include <string>
 
 
-
-
-
-
 template <CurrencyTag T> class Money
 {
 
@@ -31,11 +27,11 @@ public:
         return m;
     }
 
-    Number getValue() const //return const reference TODO
+    Number getValue() const //return const reference TODO ASK
     {
         return this->value;
     }
-    Number getMainValue() const //return const reference TODO
+    Number getMainValue() const //return const reference TODO ASK
     {
         return this->value/100;
     }

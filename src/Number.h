@@ -9,10 +9,10 @@
 
 
 
-class Number
-{
+class Number {
+    friend bool operator==(Number n1, Number n2);
+    friend bool operator>(const Number& n1, const Number& n2);
 public:
-    std::vector<int> digitCellsArr;
     Number(std::string numberString); // explicit to avoid n+="xyz" ASK TODO
     Number(long int number = 0);
 
@@ -24,6 +24,31 @@ public:
     Number& operator/=(const int a);
     Number& operator-=(const Number n);
 
+    int getDecimals() const
+    {
+        return *(digitCellsArr.begin()) % (MAX_DECIMALS_VALUE+1);
+    }
+
+protected:
+private:
+    std::vector<int> digitCellsArr;
+    static const int DIGITS = 3;
+    static const int BASE = 1000;
+    static const int MAX_DECIMALS_VALUE = 99;
+
+    int carry;
+    bool isNegative = false;
+    bool addingAbs=false;
+
+    void setSignDivMult(const Number &a, const Number &b)
+    {
+        if(a.isNegative && b.isNegative)
+            isNegative = false;
+        else if(!a.isNegative && !b.isNegative)
+            isNegative = false;
+        else
+            isNegative = true;
+    }
 
     void trimZeros()
     {
@@ -47,36 +72,6 @@ public:
         a = (a+b+aCarry)%BASE;
         carry = (ax+b+aCarry)/BASE;
     }
-    int getDecimals() const
-    {
-        return *(digitCellsArr.begin()) % (MAX_DECIMALS_VALUE+1);
-    }
-
-
-protected:
-private:
-    static const int DIGITS = 3;
-    static const int BASE = 1000;
-    static const int MAX_DECIMALS_VALUE = 99;
-
-    int carry;
-    bool isNegative = false;
-    bool addingAbs=false;
-
-    void setSignDivMult(const Number &a, const Number &b)
-    {
-        if(a.isNegative && b.isNegative)
-            isNegative = false;
-        else if(!a.isNegative && !b.isNegative)
-            isNegative = false;
-        else
-            isNegative = true;
-    }
-
-    void setSignAddition(const Number &a, const Number &b);
-
-
-
 };
 
 
@@ -113,8 +108,7 @@ static inline std::ostream& operator<< (std::ostream& os, const Number& n)
 }
 
 
-bool operator==(Number n1, Number n2);
 bool operator>(const Number& n1, const Number& n2);
-
+bool operator==(Number n1, Number n2);
 
 #endif // NUMBERS_H_INCLUDED

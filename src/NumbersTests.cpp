@@ -8,20 +8,24 @@
 
 // http://stackoverflow.com/questions/17572583/boost-check-fails-to-compile-operator-for-custom-types/17573165#17573165
 // Changes made
-namespace boost {
- namespace test_tools {
+namespace boost
+{
+namespace test_tools
+{
 #ifdef __linux__
-  template<>
-  struct print_log_value<Number> {
+template<>
+struct print_log_value<Number>
+{
 #elif _WIN32
-  struct print_log_value {
+struct print_log_value
+{
 #endif // _WIN32
     void operator()( std::ostream& os, Number const& n)
     {
         ::operator<<(os, n);
     }
-  };
- }
+};
+}
 }
 
 BOOST_AUTO_TEST_SUITE(NumbersTests)
@@ -53,9 +57,10 @@ BOOST_AUTO_TEST_CASE( string_constructor_zeros )
 
 BOOST_AUTO_TEST_CASE( string_constructor_bad_data )
 {
-    BOOST_CHECK_THROW( {
-                            Number n{"0g0"};
-                       }, std::runtime_error);
+    BOOST_CHECK_THROW(
+    {
+        Number n{"0g0"};
+    }, std::runtime_error);
 }
 
 BOOST_AUTO_TEST_CASE( string_constructor_negative )
@@ -68,21 +73,6 @@ BOOST_AUTO_TEST_CASE( int_constructor_negative )
 {
     Number n{-123456};
     BOOST_CHECK_EQUAL (n.to_string(), "-123456");
-}
-// TODO REMOVE
-BOOST_AUTO_TEST_CASE( addition_random )
-{
-    srand(time(0));
-    for(int i = 0; i< 100000; i++) {
-        {
-            int ax = (std::rand() %1000000),
-                bx=std::rand() %10000000;
-            Number a(ax);
-            Number b(bx);
-            a += b;
-            BOOST_CHECK_EQUAL(a.to_string(),std::to_string(ax+bx));
-        }
-    }
 }
 
 BOOST_AUTO_TEST_CASE( addition_1 )
@@ -260,7 +250,7 @@ BOOST_AUTO_TEST_CASE( div_2 )
 {
     Number a(150);
     a /= 200;
-    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(static_cast<int64_t>(150/200))); //TODO do not use this cast, use static cast!
+    BOOST_CHECK_EQUAL(a.to_string(),std::to_string(static_cast<int64_t>(150/200)));
 }
 
 BOOST_AUTO_TEST_CASE( div_zero_by )
@@ -369,7 +359,7 @@ BOOST_AUTO_TEST_CASE( check_if_numbers_equal_false )
     BOOST_CHECK(!(a == c));
 }
 
-BOOST_AUTO_TEST_CASE( check_greater_than_true )
+BOOST_AUTO_TEST_CASE( check_abs_greater_than_true )
 {
     Number a(12345);
     Number b(1234);
@@ -377,7 +367,7 @@ BOOST_AUTO_TEST_CASE( check_greater_than_true )
     BOOST_CHECK(a > b);
 }
 
-BOOST_AUTO_TEST_CASE( check_greater_than_false )
+BOOST_AUTO_TEST_CASE( check_abs_greater_than_false )
 {
     Number a(12345);
     Number c(178);
